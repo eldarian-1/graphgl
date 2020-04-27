@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Исходные файлы\View">
+      <UniqueIdentifier>{f71aa383-dfef-4140-ab84-3ea7bd5b6f73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\DDS">
+      <UniqueIdentifier>{0632962e-73e3-4810-81a3-4ec24d80d286}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Figure">
+      <UniqueIdentifier>{40b37d41-46cf-4990-8417-a1ba88eeab25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Figure">
+      <UniqueIdentifier>{42bad949-e6de-4bbc-95ff-34c9025c7b2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\View">
+      <UniqueIdentifier>{88d39af8-b652-4f3b-a2fe-db81e1f05f30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\DDS">
+      <UniqueIdentifier>{11419d88-4b32-4845-a7ca-d12ab10fe913}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="App.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="AppFunc.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph.cpp">
+      <Filter>Исходные файлы\DDS</Filter>
+    </ClCompile>
+    <ClCompile Include="Stack.cpp">
+      <Filter>Исходные файлы\DDS</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Исходные файлы\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Исходные файлы\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Line.cpp">
+      <Filter>Исходные файлы\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Исходные файлы\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="Arrow.cpp">
+      <Filter>Исходные файлы\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="Rect.cpp">
+      <Filter>Исходные файлы\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="Ellip.cpp">
+      <Filter>Исходные файлы\Figure</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="App.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="AppFunc.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Файлы заголовков\DDS</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack.h">
+      <Filter>Файлы заголовков\DDS</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Файлы заголовков\View</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Файлы заголовков\View</Filter>
+    </ClInclude>
+    <ClInclude Include="View.h">
+      <Filter>Файлы заголовков\View</Filter>
+    </ClInclude>
+    <ClInclude Include="Figure.h">
+      <Filter>Файлы заголовков\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>Файлы заголовков\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Файлы заголовков\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="Arrow.h">
+      <Filter>Файлы заголовков\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect.h">
+      <Filter>Файлы заголовков\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="Ellip.h">
+      <Filter>Файлы заголовков\Figure</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
