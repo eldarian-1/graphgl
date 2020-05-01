@@ -6,6 +6,7 @@
 using namespace std;
 
 App* App::instance = nullptr;
+bool App::isMenu = false;
 
 int xDown, yDown;
 
@@ -25,6 +26,7 @@ App* App::getInstance(int* argc, char** argv, Button** ctrl, int size)
 App::App(int* argc, char** argv, Button** ctrl, int size)
 {
 	this->isStarted = false;
+	this->graph = Graph::getInstance();
 
 	this->addStack(ctrl, size);
 
@@ -56,17 +58,17 @@ void App::start()
 
 int App::getCountGraph()
 {
-	return this->graph.getCount();
+	return this->graph->getCount();
 }
 
 const char* App::getNameNode(int num)
 {
-	return this->graph.getNameNode(num);
+	return this->graph->getNameNode(num);
 }
 
 Node* App::getPtrNode(int num)
 {
-	return this->graph.getPtrNode(num);
+	return this->graph->getPtrNode(num);
 }
 
 void App::addStack(Button** ctrl, int size)
@@ -77,7 +79,7 @@ void App::addStack(Button** ctrl, int size)
 
 void App::addGraph(Node* node)
 {
-	this->graph.addNode(node);
+	this->graph->addNode(node);
 	glutPostRedisplay();
 }
 
@@ -89,20 +91,20 @@ void App::popStack(int count)
 
 void App::setCities(Node** cities, int count)
 {
-	this->graph.setCities(cities, count);
-	this->graph.setCoords();
+	this->graph->setCities(cities, count);
+	this->graph->setCoords();
 	glutPostRedisplay();
 }
 
 void App::setCoords()
 {
-	this->graph.setCoords();
+	this->graph->setCoords();
 	glutPostRedisplay();
 }
 
 void App::draw()
 {
-	this->graph.draw();
+	this->graph->draw();
 	this->stack.draw();
 }
 
@@ -128,14 +130,19 @@ void reshapeFunc(int width, int height)
 
 void motionFunc(int x, int y)
 {
-	App::getInstance()->graph.moveNode(x, y);
+	App::getInstance()->graph->moveNode(x, y);
 	glutPostRedisplay();
 }
 
 void passiveMotionFunc(int x, int y)
 {
-	App::getInstance()->stack.isFocused(x, y);
-	App::getInstance()->graph.isFocused(x, y);
+	bool temp = App::getInstance()->stack.isFocused(x, y);
+	if(!temp)
+		temp = App::getInstance()->graph->isFocused(x, y);
+	if (!temp)
+		Window().onFocused();
+	else
+		Window().onUnfocused();
 	glutPostRedisplay();
 }
 
@@ -149,7 +156,7 @@ void mouseFunc(int button, int state, int x, int y)
 		yDown = y;
 		temp = App::getInstance()->stack.isFocused(x, y, &View::onMouseLeftDown);
 		if(!temp)
-			temp = App::getInstance()->graph.isFocused(x, y, &View::onMouseLeftDown);
+			temp = App::getInstance()->graph->isFocused(x, y, &View::onMouseLeftDown);
 		if(!temp)
 			Window().onMouseLeftDown(x, y);
 	}
@@ -160,7 +167,7 @@ void mouseFunc(int button, int state, int x, int y)
 		yDown = y;
 		temp = App::getInstance()->stack.isFocused(x, y, &View::onMouseRightDown);
 		if (!temp)
-			temp = App::getInstance()->graph.isFocused(x, y, &View::onMouseRightDown);
+			temp = App::getInstance()->graph->isFocused(x, y, &View::onMouseRightDown);
 		if (!temp)
 			Window().onMouseRightDown(x, y);
 	}
@@ -169,14 +176,14 @@ void mouseFunc(int button, int state, int x, int y)
 	{
 		temp = App::getInstance()->stack.isFocused(x, y, &View::onMouseLeftUp);
 		if (!temp)
-			temp = App::getInstance()->graph.isFocused(x, y, &View::onMouseLeftUp);
+			temp = App::getInstance()->graph->isFocused(x, y, &View::onMouseLeftUp);
 		if(!temp)
 			Window().onMouseRightDown(x, y);
 		if (pow(x - xDown, 2) + pow(y - yDown, 2) <= 100)
 		{
 			temp = App::getInstance()->stack.isFocused(x, y, &View::onMouseLeftClick);
 			if (!temp)
-				temp = App::getInstance()->graph.isFocused(x, y, &View::onMouseLeftClick);
+				temp = App::getInstance()->graph->isFocused(x, y, &View::onMouseLeftClick);
 			if (!temp)
 				Window().onMouseLeftClick(x, y);
 		}
@@ -186,14 +193,14 @@ void mouseFunc(int button, int state, int x, int y)
 	{
 		temp = App::getInstance()->stack.isFocused(x, y, &View::onMouseRightUp);
 		if (!temp)
-			temp = App::getInstance()->graph.isFocused(x, y, &View::onMouseRightUp);
+			temp = App::getInstance()->graph->isFocused(x, y, &View::onMouseRightUp);
 		if (!temp)
 			Window().onMouseRightUp(x, y);
 		if (pow(x - xDown, 2) + pow(y - yDown, 2) <= 100)
 		{
 			temp = App::getInstance()->stack.isFocused(x, y, &View::onMouseRightClick);
 			if (!temp)
-				temp = App::getInstance()->graph.isFocused(x, y, &View::onMouseRightClick);
+				temp = App::getInstance()->graph->isFocused(x, y, &View::onMouseRightClick);
 			if (!temp)
 				Window().onMouseRightClick(x, y);
 		}

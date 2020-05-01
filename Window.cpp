@@ -4,6 +4,7 @@
 #include "AppFunc.h"
 
 #include <iostream>
+#include <glut.h>
 using namespace std;
 
 int Window::countBtn = 0;
@@ -28,12 +29,6 @@ void Window::onUnfocused()
 void Window::onMouseLeftClick(int x, int y)
 {
 	//printf("Window: onMouseLeftClick\n");
-
-	if (countBtn)
-	{
-		App::getInstance()->popStack(countBtn);
-		countBtn = 0;
-	}
 }
 
 void Window::onMouseRightClick(int x, int y)
@@ -56,11 +51,18 @@ void Window::onMouseRightClick(int x, int y)
 	countBtn = (sizeof ctrl) / sizeof(Button*);
 
 	App::getInstance()->addStack(ctrl, countBtn);
+
 }
 
 void Window::onMouseLeftDown(int x, int y)
 {
 	//printf("Window: onMouseLeftDown\n");
+
+	if (countBtn)
+	{
+		App::getInstance()->popStack(countBtn);
+		countBtn = 0;
+	}
 }
 
 void Window::onMouseLeftUp(int x, int y)

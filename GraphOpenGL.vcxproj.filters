@@ -16,9 +16,6 @@
     <Filter Include="Исходные файлы\View">
       <UniqueIdentifier>{f71aa383-dfef-4140-ab84-3ea7bd5b6f73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\DDS">
-      <UniqueIdentifier>{0632962e-73e3-4810-81a3-4ec24d80d286}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Исходные файлы\Figure">
       <UniqueIdentifier>{40b37d41-46cf-4990-8417-a1ba88eeab25}</UniqueIdentifier>
     </Filter>
@@ -28,8 +25,11 @@
     <Filter Include="Файлы заголовков\View">
       <UniqueIdentifier>{88d39af8-b652-4f3b-a2fe-db81e1f05f30}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы заголовков\DDS">
+    <Filter Include="Файлы заголовков\DS">
       <UniqueIdentifier>{11419d88-4b32-4845-a7ca-d12ab10fe913}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\DS">
+      <UniqueIdentifier>{0632962e-73e3-4810-81a3-4ec24d80d286}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -43,10 +43,10 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Graph.cpp">
-      <Filter>Исходные файлы\DDS</Filter>
+      <Filter>Исходные файлы\DS</Filter>
     </ClCompile>
     <ClCompile Include="Stack.cpp">
-      <Filter>Исходные файлы\DDS</Filter>
+      <Filter>Исходные файлы\DS</Filter>
     </ClCompile>
     <ClCompile Include="Node.cpp">
       <Filter>Исходные файлы\View</Filter>
@@ -81,10 +81,10 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Graph.h">
-      <Filter>Файлы заголовков\DDS</Filter>
+      <Filter>Файлы заголовков\DS</Filter>
     </ClInclude>
     <ClInclude Include="Stack.h">
-      <Filter>Файлы заголовков\DDS</Filter>
+      <Filter>Файлы заголовков\DS</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Файлы заголовков\View</Filter>

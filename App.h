@@ -11,7 +11,7 @@ private:
 	static App* instance;
 
 	Stack stack;
-	Graph graph;
+	Graph* graph;
 	bool isStarted;
 
 	App(int*, char**, Button**, int);
@@ -20,6 +20,8 @@ private:
 
 public:
 	static App* getInstance(int* = nullptr, char** = nullptr, Button** = nullptr, int = 0);
+
+	static bool isMenu;
 
 	void start();
 

@@ -6,14 +6,16 @@
 class Graph: public View
 {
 private:
+	static Graph* instance;
+
+	Graph(Node** c = nullptr, int i = 0) :nodes(c), count(i), isNullptr(true) { setCoords(); }
 
 	Node** nodes;
 	int count;
 	bool isNullptr;
 
 public:
-	Graph() :nodes(nullptr), count(0), isNullptr(true) {}
-	Graph(Node** c, int i) :nodes(c), count(i), isNullptr(true) { setCoords(); }
+	static Graph* getInstance(Node** c = nullptr, int i = 0);
 
 	int getCount();
 	const char* getNameNode(int);
@@ -25,6 +27,7 @@ public:
 	void draw();
 
 	void moveNode(int, int);
+	void delNode(Node*);
 
 	bool isFocused(int, int, void (View::*)(int, int) = nullptr);
 	void onFocused();
@@ -36,4 +39,3 @@ public:
 	void onMouseRightDown(int, int);
 	void onMouseRightUp(int, int);
 };
-

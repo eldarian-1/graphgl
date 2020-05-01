@@ -3,11 +3,21 @@
 #include <math.h>
 
 #include "AppFunc.h"
+#include "Arrow.h"
 
 extern const int APP_WIDTH;
 extern const int APP_HEIGHT;
 extern const int APP_SHIFT;
 extern const double M_PI;
+
+Graph* Graph::instance = nullptr;
+
+Graph* Graph::getInstance(Node** c, int i)
+{
+	if (instance == nullptr)
+		instance = new Graph(c, i);
+	return instance;
+}
 
 int Graph::getCount()
 {
@@ -68,11 +78,67 @@ void Graph::draw()
 {
 	for (int i = 0; i < this->count; i++)
 		this->nodes[i]->draw();
+
+	if (Node::fromNode)
+		Arrow(Node::fromNode->figure, Node::cXF, Node::cYF).draw();
 }
 
 void Graph::moveNode(int x, int y)
 {
 	Node::moveNode(x, y);
+}
+
+void Graph::delNode(Node* node)
+{
+	for (int i = 0; i < this->count; i++)
+	{
+		bool isIs = false;
+
+		if (this->nodes[i] == node)
+			continue;
+
+		for (int j = 0; j < this->nodes[i]->paths && !isIs; j++)
+			isIs = this->nodes[i]->ptr[j] == node;
+
+		if (isIs)
+		{
+			int j;
+			int* path = this->nodes[i]->path;
+			Node** ptr = this->nodes[i]->ptr;
+
+			this->nodes[i]->path = new int[this->nodes[i]->paths - 1];
+			this->nodes[i]->ptr = new Node*[this->nodes[i]->paths - 1];
+
+			for (j = 0; ptr[j] != node; j++)
+			{
+				this->nodes[i]->path[j] = path[j];
+				this->nodes[i]->ptr[j] = ptr[j];
+			}
+
+			for (++j; j < this->nodes[i]->paths; j++)
+			{
+				this->nodes[i]->path[j - 1] = path[j];
+				this->nodes[i]->ptr[j - 1] = ptr[j];
+			}
+
+			--this->nodes[i]->paths;
+			delete[] path;
+			delete[] ptr;
+		}
+	}
+
+	Node** temp = this->nodes;
+	this->nodes = new Node * [this->count - 1];
+	int i;
+
+	for (i = 0; temp[i] != node; i++)
+		this->nodes[i] = temp[i];
+
+	for (++i; i < this->count; i++)
+		this->nodes[i - 1] = temp[i];
+
+	--this->count;
+	delete[] temp;
 }
 
 bool Graph::isFocused(int x, int y, void (View::* func)(int, int))

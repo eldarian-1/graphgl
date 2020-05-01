@@ -9,10 +9,22 @@ Arrow::Arrow(Ellip* start, Ellip* finish, double weight, double angle, double le
 	double len = pow(pow(finish->cX - start->cX, 2.0) + pow(finish->cY - start->cY, 2.0), 0.5);
 	double cos = (finish->cX - start->cX) / len;
 	double sin = (finish->cY - start->cY) / len;
+	this->sX = start->cX + cos * (start->rA + 10);
+	this->sY = start->cY + sin * (start->rB + 10);
+	this->fX = finish->cX - cos * (finish->rA + 10);
+	this->fY = finish->cY - sin * (finish->rB + 10);
+}
+
+Arrow::Arrow(Ellip* start, int x, int y, double weight, double angle, double length, double* color)
+	:weight(weight), angle(angle), length(length), color(color)
+{
+	double len = pow(pow(x - start->cX, 2.0) + pow(y - start->cY, 2.0), 0.5);
+	double cos = (x - start->cX) / len;
+	double sin = (y - start->cY) / len;
 	this->sX = start->cX + cos * start->rA;
 	this->sY = start->cY + sin * start->rB;
-	this->fX = finish->cX - cos * finish->rA;
-	this->fY = finish->cY - sin * finish->rB;
+	this->fX = x;
+	this->fY = y;
 }
 
 void Arrow::draw()
@@ -26,11 +38,6 @@ void Arrow::draw()
 
 	cs = fabsf(cs);
 	sn = fabsf(sn);
-
-	this->sX += 10 * t0 * cs;
-	this->sY += 10 * t1 * sn;
-	this->fX -= 10 * t0 * cs;
-	this->fY -= 10 * t1 * sn;
 
 	glLineWidth(this->weight);
 	glBegin(GL_LINES);

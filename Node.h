@@ -9,8 +9,6 @@ class Node : public View
 private:
 	friend class Graph;
 
-	static Node* movedNode;
-
 	Text text;
 	Ellip* figure;
 
@@ -31,8 +29,10 @@ public:
 
 	~Node(){}
 
+
+	static Node* movedNode, * fromNode, *actNode;
 	static void moveNode(double x, double y);
-	static int cXF, cYF;
+	static int cXF, cYF, countBtn;
 
 	const char* getText();
 
@@ -53,4 +53,6 @@ public:
 	void onMouseLeftUp(int, int);
 	void onMouseRightDown(int, int);
 	void onMouseRightUp(int, int);
+
+	friend void delBtn();
 };

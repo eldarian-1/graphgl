@@ -5,8 +5,7 @@
 class Window : public View
 {
 public:
-	static int countBtn;
-	static int actX, actY;
+	static int countBtn, actX, actY;
 
 	bool isFocused(int, int, void (View::*)(int, int) = nullptr);
 	void onFocused();
