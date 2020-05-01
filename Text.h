@@ -19,7 +19,7 @@ private:
 	double* color;
 
 public:
-	Text(const char* t, double* c = nullptr, double x = 0, double y = 0) : text(t), color((c) ? c : defaultColorAlt), cX(x), cY(y) {};
+	Text(const char* t = nullptr, double* c = nullptr, double x = 0, double y = 0) : text(t), color((c) ? c : defaultColorAlt), cX(x), cY(y) {};
 
 	Text(const char* t, Rect* rect, double* c = nullptr)
 		: Text(t, c,

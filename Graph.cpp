@@ -9,6 +9,30 @@ extern const int APP_HEIGHT;
 extern const int APP_SHIFT;
 extern const double M_PI;
 
+int Graph::getCount()
+{
+	return this->count;
+}
+
+const char* Graph::getNameNode(int num)
+{
+	return this->nodes[num]->getText();
+}
+
+Node* Graph::getPtrNode(int num)
+{
+	return this->nodes[num];
+}
+
+void Graph::addNode(Node* node)
+{
+	Node** temp = this->nodes;
+	this->nodes = new Node * [this->count + 1];
+	for (int i = 0; i < this->count; i++)
+		this->nodes[i] = temp[i];
+	this->nodes[this->count++] = node;
+}
+
 void Graph::setCoords()
 {
 	this->isNullptr = false;
@@ -46,10 +70,17 @@ void Graph::draw()
 		this->nodes[i]->draw();
 }
 
-void Graph::isFocused(int x, int y, void (View::* func)(int, int))
+void Graph::moveNode(int x, int y)
 {
-	for (int i = 0; i < this->count; i++)
-		this->nodes[i]->isFocused(x, y, func);
+	Node::moveNode(x, y);
+}
+
+bool Graph::isFocused(int x, int y, void (View::* func)(int, int))
+{
+	bool temp = false;
+	for (int i = 0; i < this->count && !temp; i++)
+		temp = this->nodes[i]->isFocused(x, y, func);
+	return temp;
 }
 
 void Graph::onFocused()
@@ -62,9 +93,14 @@ void Graph::onUnfocused()
 	//printf("Город %c: onUnfocused\n", char('A' + this->focused));
 }
 
-void Graph::onClick(int x, int y)
+void Graph::onMouseLeftClick(int x, int y)
 {
-	//printf("Город %c: onClick\n", char('A' + this->focused));
+	//printf("Город %c: onMouseLeftClick\n", char('A' + this->focused));
+}
+
+void Graph::onMouseRightClick(int x, int y)
+{
+	//printf("Город %c: onMouseRightClick\n", char('A' + this->focused));
 }
 
 void Graph::onMouseLeftDown(int x, int y)

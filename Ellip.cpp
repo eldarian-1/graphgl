@@ -4,6 +4,12 @@
 #include <math.h>
 #include "AppFunc.h"
 
+void Ellip::setCoords(double x, double y)
+{
+	this->cX = x;
+	this->cY = y;
+}
+
 void Ellip::setCoords(double x, double y, double r)
 {
 	this->cX = x;

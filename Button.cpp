@@ -6,34 +6,44 @@ void Button::draw()
 	text.draw();
 }
 
-void Button::isFocused(int x, int y, void (View::* func)(int, int))
+bool Button::isFocused(int x, int y, void (View::* func)(int, int))
 {
-	if (rect.isFocused(x, y))
+	if (this->rect.isFocused(x, y))
 	{
-		if (func == nullptr)
-			this->onFocused();
+		this->isFocus = true;
+		if (func != nullptr)
+			(this->*((void (Button::*)(int, int))func))(x, y);
 		else
-			(this->*((void (Button::*)(int, int))(func)))(x, y);
+			this->onFocused();
+		return true;
 	}
-	else
+	else if (this->isFocus)
+	{
+		this->isFocus = false;
 		this->onUnfocused();
+	}
+	return false;
 }
 
 void Button::onFocused()
 {
-	isFocus = true;
 	//printf("Button: onFocused on x: %d, y: %d\n", x, y);
 }
 
 void Button::onUnfocused()
 {
-	isFocus = false;
 	//printf("Button: onFocused on x: %d, y: %d\n", x, y);
 }
 
-void Button::onClick(int x, int y)
+void Button::onMouseLeftClick(int x, int y)
 {
-	//printf("Button: onClick on x: %d, y: %d\n", x, y);
+	//printf("Button: onMouseLeftClick on x: %d, y: %d\n", x, y);
+	this->func();
+}
+
+void Button::onMouseRightClick(int x, int y)
+{
+	//printf("Button: onMouseRightClick on x: %d, y: %d\n", x, y);
 	this->func();
 }
 

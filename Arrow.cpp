@@ -17,13 +17,6 @@ Arrow::Arrow(Ellip* start, Ellip* finish, double weight, double angle, double le
 
 void Arrow::draw()
 {
-	glLineWidth(this->weight);
-	glBegin(GL_LINES);
-	glColor3dv(this->color);
-	glVertex2d(this->sX, this->sY);
-	glVertex2d(this->fX, this->fY);
-	glEnd();
-
 	double len = pow(pow(fX - sX, 2.0) + pow(fY - sY, 2.0), 0.5);
 	double cs = (fX - sX) / len;
 	double sn = (fY - sY) / len;
@@ -34,15 +27,30 @@ void Arrow::draw()
 	cs = fabsf(cs);
 	sn = fabsf(sn);
 
+	this->sX += 10 * t0 * cs;
+	this->sY += 10 * t1 * sn;
+	this->fX -= 10 * t0 * cs;
+	this->fY -= 10 * t1 * sn;
+
+	glLineWidth(this->weight);
+	glBegin(GL_LINES);
+	glColor3dv(this->color);
+	glVertex2d(this->sX, this->sY);
+	glVertex2d(this->fX, this->fY);
+	glEnd();
+
 	double x1 = this->fX + t0 * cos(M_PI + acos(cs) - this->angle / 2.0) * this->length;
 	double y1 = this->fY + t1 * sin(M_PI + asin(sn) - this->angle / 2.0) * this->length;
 	double x2 = this->fX + t0 * cos(M_PI + acos(cs) + this->angle / 2.0) * this->length;
 	double y2 = this->fY + t1 * sin(M_PI + asin(sn) + this->angle / 2.0) * this->length;
+	double x3 = this->fX + t0 * (-0.75) * cs * this->length;
+	double y3 = this->fY + t1 * (-0.75) * sn * this->length;
 
-	glBegin(GL_TRIANGLES);
+	glBegin(GL_TRIANGLE_FAN);
 	glColor3dv(this->color);
 	glVertex2d(this->fX, this->fY);
 	glVertex2d(x1, y1);
+	glVertex2d(x3, y3);
 	glVertex2d(x2, y2);
 	glEnd();
 }

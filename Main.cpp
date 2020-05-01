@@ -5,19 +5,21 @@ using namespace std;
 
 void btnAutoCities();
 void btnSetCities();
+void btnSetCoords();
 void btnFindPath();
 
 int main(int argc, char** argv)
 {
 	setlocale(LC_ALL, "Rus");
 
-	Control ctrl[] = {
-		{15, 15, 120, 30, "Auto cities", btnAutoCities},
-		{15, 60, 120, 30, "Set cities", btnSetCities},
-		{15, 105, 120, 30, "Find path", btnFindPath}
+	Button* ctrl[] = {
+		new Button(15, 15, 120, 30, "Auto cities", &btnAutoCities),
+		new Button(15, 60, 120, 30, "Set cities", &btnSetCities),
+		new Button(15, 105, 120, 30, "Set coords", &btnSetCoords),
+		new Button(15, 150, 120, 30, "Find path", &btnFindPath)
 	};
 
-	App::getInstance(&argc, argv, ctrl, sizeof(ctrl)/(sizeof Control))->start();
+	App::getInstance(&argc, argv, ctrl, sizeof(ctrl)/sizeof(Button*))->start();
 	return 0;
 }
 
@@ -48,10 +50,10 @@ void btnAutoCities()
 		paths[2][0] = paths[2][1] = paths[2][2] = 
 		paths[3][0] = paths[3][1] = paths[3][2] = 101;
 
-	cities[0] = new Node("Perm", counts[0], paths[0], ptrs[0]);
-	cities[1] = new Node("Tashckent", counts[1], paths[1], ptrs[1]);
-	cities[2] = new Node("SaintPetersburg", counts[2], paths[2], ptrs[2]);
-	cities[3] = new Node("Vladicaucasus", counts[3], paths[3], ptrs[3]);
+	cities[0] = new Node("Hamburg", counts[0], paths[0], ptrs[0]);
+	cities[1] = new Node("Dresden", counts[1], paths[1], ptrs[1]);
+	cities[2] = new Node("Leipzig", counts[2], paths[2], ptrs[2]);
+	cities[3] = new Node("Dusseldorf", counts[3], paths[3], ptrs[3]);
 
 	ptrs[0][0] = cities[1];
 	ptrs[0][1] = cities[2];
@@ -106,7 +108,7 @@ void btnSetCities()
 	{
 		cout << "¬ведите число путей из города " << char('A' + i) << "-" << names[i] << ": ";
 		cin >> counts[i];
-		counts[i] = ((counts[i] > 0) && (counts[i] < count)) ? counts[i] : (count - 1);
+		counts[i] = ((counts[i] >= 0) && (counts[i] < count)) ? counts[i] : (count - 1);
 		ptrs[i] = new Node * [counts[i]];
 		paths[i] = new int[counts[i]];
 		for (int j = 0, k = 0; (j < count) && (k < counts[i]); j++)
@@ -131,7 +133,12 @@ void btnSetCities()
 	App::getInstance()->setCities(cities, count);
 }
 
+void btnSetCoords()
+{
+	App::getInstance()->setCoords();
+}
+
 void btnFindPath()
 {
-	
+
 }

@@ -15,6 +15,18 @@ void Stack::add(Button* data)
 	}
 }
 
+void Stack::pop()
+{
+	if (this->pTop != nullptr)
+	{
+		Node* temp = this->pTop;
+		while (temp->pLow->pLow != nullptr)
+			temp = temp->pLow;
+		delete temp->pLow;
+		temp->pLow = nullptr;
+	}
+}
+
 void Stack::draw()
 {
 	Node* temp = this->pTop;
@@ -25,12 +37,14 @@ void Stack::draw()
 	}
 }
 
-void Stack::isFocused(int x, int y, void (View::* func)(int, int))
+bool Stack::isFocused(int x, int y, void (View::* func)(int, int))
 {
+	bool bl = false;
 	Node* temp = this->pTop;
-	while (temp != nullptr)
+	while (temp && !bl)
 	{
-		temp->data->isFocused(x, y, func);
+		bl = temp->data->isFocused(x, y, func);
 		temp = temp->pLow;
 	}
+	return bl;
 }

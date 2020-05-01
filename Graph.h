@@ -15,14 +15,22 @@ public:
 	Graph() :nodes(nullptr), count(0), isNullptr(true) {}
 	Graph(Node** c, int i) :nodes(c), count(i), isNullptr(true) { setCoords(); }
 
+	int getCount();
+	const char* getNameNode(int);
+	Node* getPtrNode(int);
+
+	void addNode(Node*);
 	void setCoords();
 	void setCities(Node**, int);
 	void draw();
 
-	void isFocused(int, int, void (View::*)(int, int) = nullptr);
+	void moveNode(int, int);
+
+	bool isFocused(int, int, void (View::*)(int, int) = nullptr);
 	void onFocused();
 	void onUnfocused();
-	void onClick(int, int);
+	void onMouseLeftClick(int, int);
+	void onMouseRightClick(int, int);
 	void onMouseLeftDown(int, int);
 	void onMouseLeftUp(int, int);
 	void onMouseRightDown(int, int);

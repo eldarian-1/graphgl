@@ -14,15 +14,16 @@ private:
 	bool isFocus;
 
 public:
-	Button(Control btn)
-		: rect(btn.sX, btn.sY, btn.fX, btn.fY), text(btn.text, &rect), func(btn.func), isFocus(false) {}
+	Button(int x, int y, int width, int height, const char* text, void (*fnc)())
+		: rect(x, y, width, height), text(text, &rect), func(fnc), isFocus(false) {}
 
 	void draw();
 
-	void isFocused(int, int, void (View::*)(int, int) = nullptr);
+	bool isFocused(int, int, void (View::*)(int, int) = nullptr);
 	void onFocused();
 	void onUnfocused();
-	void onClick(int, int);
+	void onMouseLeftClick(int, int);
+	void onMouseRightClick(int, int);
 	void onMouseLeftDown(int, int);
 	void onMouseLeftUp(int, int);
 	void onMouseRightDown(int, int);

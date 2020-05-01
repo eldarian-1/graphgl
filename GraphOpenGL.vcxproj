@@ -154,6 +154,7 @@
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Stack.cpp" />
     <ClCompile Include="Text.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="View.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

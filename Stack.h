@@ -15,6 +15,7 @@ public:
 	Stack() : pTop(nullptr){}
 
 	void add(Button*);
+	void pop();
 	void draw();
-	void isFocused(int, int, void (View::*)(int, int) = nullptr);
+	bool isFocused(int, int, void (View::*)(int, int) = nullptr);
 };

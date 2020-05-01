@@ -1,2 +1,0 @@
-C:\Users\Eldarian\source\repos\GraphOpenGL\Debug\GraphOpenGL.exe
-C:\Users\Eldarian\source\repos\GraphOpenGL\Debug\GraphOpenGL.pdb

@@ -2,6 +2,8 @@
 
 #include "Figure.h"
 
+#include <string.h>
+
 extern double defaultWeight;
 extern double* defaultColorMain;
 extern double* defaultColorFocus;
@@ -18,6 +20,7 @@ private:
 
 public:
 	Ellip() : cX(0), cY(0), rA(0), rB(0), weight(defaultWeight), colorMain(defaultColorMain), colorFocus(defaultColorFocus), colorBorder(defaultColorAlt), isFocus(false) {};
+	Ellip(double x, double y, const char* text) : cX(x), cY(y), rA(strlen(text)*5+10), rB(20), weight(defaultWeight), colorMain(defaultColorMain), colorFocus(defaultColorFocus), colorBorder(defaultColorAlt), isFocus(false) {};
 	Ellip(double x, double y, double r) : cX(x), cY(y), rA(r), rB(r), weight(defaultWeight), colorMain(defaultColorMain), colorFocus(defaultColorFocus), colorBorder(defaultColorAlt), isFocus(false) {};
 	Ellip(double x, double y, double a, double b) : cX(x), cY(y), rA(a), rB(b), weight(defaultWeight), colorMain(defaultColorMain), colorFocus(defaultColorFocus), colorBorder(defaultColorAlt), isFocus(false) {};
 
@@ -26,6 +29,7 @@ public:
 	double getRA() { return this->rA; }
 	double getRB() { return this->rB; }
 
+	void setCoords(double x, double y);
 	void setCoords(double x, double y, double r);
 	void setCoords(double x, double y, double a, double b);
 
