@@ -3,20 +3,20 @@
 #include <glut.h>
 #include <math.h>
 
-Arrow::Arrow(Ellip* start, Ellip* finish, double weight, double angle, double length, double* color)
-	:weight(weight), angle(angle), length(length), color(color)
+Arrow::Arrow(Ellip* start, Ellip* finish, bool isEl, double weight, double angle, double length, double* color)
+	:weight(weight), angle(angle), length(length), color(color), isEllip(isEl)
 {
 	double len = pow(pow(finish->cX - start->cX, 2.0) + pow(finish->cY - start->cY, 2.0), 0.5);
 	double cos = (finish->cX - start->cX) / len;
 	double sin = (finish->cY - start->cY) / len;
-	this->sX = start->cX + cos * (start->rA + 10);
-	this->sY = start->cY + sin * (start->rB + 10);
-	this->fX = finish->cX - cos * (finish->rA + 10);
-	this->fY = finish->cY - sin * (finish->rB + 10);
+	this->sX = start->cX + cos * (start->rA + ((isEl) ? 0 : 10));
+	this->sY = start->cY + sin * (start->rB + ((isEl) ? 0 : 10));
+	this->fX = finish->cX - cos * (finish->rA + ((isEl) ? 0 : 25));
+	this->fY = finish->cY - sin * (finish->rB + ((isEl) ? 0 : 25));
 }
 
 Arrow::Arrow(Ellip* start, int x, int y, double weight, double angle, double length, double* color)
-	:weight(weight), angle(angle), length(length), color(color)
+	:weight(weight), angle(angle), length(length), color(color), isEllip(false)
 {
 	double len = pow(pow(x - start->cX, 2.0) + pow(y - start->cY, 2.0), 0.5);
 	double cos = (x - start->cX) / len;
@@ -36,22 +36,70 @@ void Arrow::draw()
 	double t0 = (cs < 0) ? -1.0 : 1.0;
 	double t1 = (sn < 0) ? -1.0 : 1.0;
 
-	cs = fabsf(cs);
-	sn = fabsf(sn);
+	double x1, x2, x3, y1, y2, y3;
 
-	glLineWidth(this->weight);
-	glBegin(GL_LINES);
-	glColor3dv(this->color);
-	glVertex2d(this->sX, this->sY);
-	glVertex2d(this->fX, this->fY);
-	glEnd();
+	cs = fabs(cs);
+	sn = fabs(sn);
 
-	double x1 = this->fX + t0 * cos(M_PI + acos(cs) - this->angle / 2.0) * this->length;
-	double y1 = this->fY + t1 * sin(M_PI + asin(sn) - this->angle / 2.0) * this->length;
-	double x2 = this->fX + t0 * cos(M_PI + acos(cs) + this->angle / 2.0) * this->length;
-	double y2 = this->fY + t1 * sin(M_PI + asin(sn) + this->angle / 2.0) * this->length;
-	double x3 = this->fX + t0 * (-0.75) * cs * this->length;
-	double y3 = this->fY + t1 * (-0.75) * sn * this->length;
+	if (this->isEllip)
+	{
+		double step = M_PI / 180;
+
+		double rA = len / 2.0;
+		double rB = 20.0;
+
+		double X0 = this->sX + rA * cs * t0;
+		double Y0 = this->sY + rA * sn * t1;
+
+		glBegin(GL_LINE_STRIP);
+		glColor3dv(this->color);
+
+		for (double angle = 0; angle <= M_PI; angle += step)
+		{
+			double X = rA * cos(angle);
+			double Y = rB * sin(angle);
+
+			double nX = X * t0 * cs - Y * t1 * sn;
+			double nY = X * t1 * sn + Y * t0 * cs;
+
+			double nnX = X0 - nX;
+			double nnY = Y0 - nY;
+
+			double sl = pow(this->sX - nnX, 2) + pow(this->sY - nnY, 2);
+			double fl = pow(this->fX - nnX, 2) + pow(this->fY - nnY, 2);
+
+			if (sl <= 100)
+				continue;
+			else if (fl <= 900)
+			{
+				this->fX = nnX;
+				this->fY = nnY;
+				break;
+			}
+
+			glVertex2d(nnX, nnY);
+		}
+		glVertex2d(this->fX, this->fY);
+		glEnd();
+	}
+	else
+	{
+		glLineWidth((float)this->weight);
+		glBegin(GL_LINES);
+		glColor3dv(this->color);
+		glVertex2d(this->sX, this->sY);
+		glVertex2d(this->fX, this->fY);
+		glEnd();
+	}
+
+	x1 = this->fX + t0 * this->length * (cs * 0.666 + cos(acos(cs) - this->angle / 2.0 + M_PI));
+	y1 = this->fY + t1 * this->length * (sn * 0.666 + sin(acos(cs) - this->angle / 2.0 + M_PI));
+
+	x2 = this->fX + t0 * this->length * (cs * 0.666 + cos(acos(cs) + this->angle / 2.0 + M_PI));
+	y2 = this->fY + t1 * this->length * (sn * 0.666 + sin(acos(cs) + this->angle / 2.0 + M_PI));
+
+	x3 = this->fX + t0 * cs * this->length;
+	y3 = this->fY + t1 * sn * this->length;
 
 	glBegin(GL_TRIANGLE_FAN);
 	glColor3dv(this->color);

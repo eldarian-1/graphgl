@@ -56,8 +56,8 @@ void Graph::setCoords()
 	for (int i = 0, k = 1; i < this->count; i++)
 	{
 		double t0 = -M_PI / 2 + step * i;
-		double x0 = cX + R * cosf(t0);
-		double y0 = cY + R * sinf(t0);
+		double x0 = cX + R * cos(t0);
+		double y0 = cY + R * sin(t0);
 		double r0 = this->nodes[i]->length() * 5.0 + 10.0;
 
 		Node* temp = nodes[i];

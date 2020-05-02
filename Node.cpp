@@ -48,7 +48,14 @@ void Node::draw()
 	text.draw();
 
 	for (int i = 0; i < this->paths; i++)
-		Arrow(this->figure, this->ptr[i]->figure).draw();
+	{
+		bool isEllip = false;
+
+		for (int j = 0; j < this->ptr[i]->paths && !isEllip; j++)
+			isEllip = this == this->ptr[i]->ptr[j];
+
+		Arrow(this->figure, this->ptr[i]->figure, isEllip, 1, M_PI/6, 20, (this->isFocus)?defaultColorArrowFocus : defaultColorArrowMain).draw();
+	}
 }
 
 void Node::setNode(const char* n, int ps, int* p, Node** pr)
@@ -68,8 +75,8 @@ void Node::moveNode(double x, double y)
 	}
 	if (fromNode)
 	{
-		cXF = x;
-		cYF = y;
+		cXF = (int)x;
+		cYF = (int)y;
 	}
 }
 
@@ -139,8 +146,8 @@ void Node::onMouseLeftDown(int x, int y)
 {
 	//printf("Город %s: onMouseLeftDown\n", this->text.getText());
 
-	cXF = this->figure->getCX() - x;
-	cYF = this->figure->getCY() - y;
+	cXF = (int)this->figure->getCX() - x;
+	cYF = (int)this->figure->getCY() - y;
 
 	movedNode = this;
 

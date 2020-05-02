@@ -28,20 +28,13 @@ void Ellip::setCoords(double x, double y, double a, double b)
 
 void Ellip::draw()
 {
-	
-
 	if (this->weight != 0)
 		drawEllipse(this->colorBorder, this->cX, this->cY, this->rA, this->rB);
-
-	const double step = 2 * M_PI / 360;
 
 	if (isFocus)
 		drawEllipse(this->colorFocus, this->cX, this->cY, this->rA - this->weight, this->rB - this->weight);
 	else
 		drawEllipse(this->colorMain, this->cX, this->cY, this->rA - this->weight, this->rB - this->weight);
-
-	
-
 }
 
 bool Ellip::isFocused(int x, int y)
@@ -52,17 +45,17 @@ bool Ellip::isFocused(int x, int y)
 
 void drawEllipse(double* color, double cX, double cY, double rA, double rB)
 {
-	const float step = float(2 * M_PI) / 360;
+	double step = M_PI / 180.0;
 
 	glBegin(GL_TRIANGLE_FAN);
 	glColor3dv(color);
 	glVertex2d(cX, cY);
-	for (float angle = 0; angle <= float(2 * M_PI); angle += step)
+	for (double angle = 0.0; angle <= 2.0 * M_PI; angle += step)
 	{
-		float t = (fabsf(angle - float(2 * M_PI)) < 0.00001f) ? 0.f : angle;
-		const float dx = rA * cosf(t);
-		const float dy = rB * sinf(t);
-		glVertex2d((double)dx + cX, (double)dy + cY);
+		double t = (fabs(angle - 2 * M_PI) < 0.00001) ? 0.0 : angle;
+		double dx = rA * cos(t);
+		double dy = rB * sin(t);
+		glVertex2d(dx + cX, dy + cY);
 	}
 	glEnd();
 }
