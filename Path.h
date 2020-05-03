@@ -20,6 +20,10 @@ public:
 	Path(Node* frN = nullptr, Node* tN = nullptr, int len =  0, bool isF = false, bool isE = true, Arrow* ar = nullptr)
 		: from(frN), to(tN), length(len), isFocus(isF), isEllip(isE), arrow(ar) {}
 
+	static Path* actPath;
+	static Node* actNode;
+	static int countBtn;
+
 	void setEllip();
 	void draw();
 
@@ -33,4 +37,5 @@ public:
 	void onMouseRightDown(int, int);
 	void onMouseRightUp(int, int);
 
+	friend void delPathBtn();
 };

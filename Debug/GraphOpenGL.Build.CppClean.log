@@ -4,6 +4,7 @@ c:\users\eldarian\source\repos\graphopengl\debug\window.obj
 c:\users\eldarian\source\repos\graphopengl\debug\text.obj
 c:\users\eldarian\source\repos\graphopengl\debug\stack.obj
 c:\users\eldarian\source\repos\graphopengl\debug\rect.obj
+c:\users\eldarian\source\repos\graphopengl\debug\path.obj
 c:\users\eldarian\source\repos\graphopengl\debug\node.obj
 c:\users\eldarian\source\repos\graphopengl\debug\main.obj
 c:\users\eldarian\source\repos\graphopengl\debug\line.obj
@@ -13,10 +14,10 @@ c:\users\eldarian\source\repos\graphopengl\debug\button.obj
 c:\users\eldarian\source\repos\graphopengl\debug\arrow.obj
 c:\users\eldarian\source\repos\graphopengl\debug\appfunc.obj
 c:\users\eldarian\source\repos\graphopengl\debug\app.obj
-c:\users\eldarian\source\repos\graphopengl\debug\path.obj
 c:\users\eldarian\source\repos\graphopengl\debug\graphopengl.exe
 c:\users\eldarian\source\repos\graphopengl\debug\graphopengl.ilk
 c:\users\eldarian\source\repos\graphopengl\debug\graphopengl.pdb
+c:\users\eldarian\source\repos\graphopengl\debug\arrow.obj.enc
 c:\users\eldarian\source\repos\graphopengl\debug\graphopengl.tlog\cl.command.1.tlog
 c:\users\eldarian\source\repos\graphopengl\debug\graphopengl.tlog\cl.read.1.tlog
 c:\users\eldarian\source\repos\graphopengl\debug\graphopengl.tlog\cl.write.1.tlog

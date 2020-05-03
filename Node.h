@@ -47,6 +47,8 @@ public:
 
 	void setNode(const char* n, int ps, int* p, Node** pr);
 
+	void delPath(Path* p);
+
 	bool isFocused(int, int, void (View::*)(int, int) = nullptr);
 	void onFocused();
 	void onUnfocused();

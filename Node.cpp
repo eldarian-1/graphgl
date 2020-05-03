@@ -122,6 +122,22 @@ void Node::setNode(const char* n, int ps, int* p, Node** pr)
 	this->isTemp = true;
 }
 
+void Node::delPath(Path* p)
+{
+	int i;
+	Path* temp = this->ptrs;
+	this->ptrs = new Path[this->paths - 1];
+
+	for (i = 0; &temp[i] != p; i++)
+		this->ptrs[i] = temp[i];
+
+	for (++i; i < this->paths; i++)
+		this->ptrs[i - 1] = temp[i];
+
+	--this->paths;
+	delete[] temp;
+}
+
 void Node::moveNode(double x, double y)
 {
 	if (movedNode)
@@ -156,6 +172,16 @@ bool Node::isFocused(int x, int y, void (View::* func)(int, int))
 	{
 		this->isFocus = false;
 		this->onUnfocused();
+	}
+	else if (this->paths)
+	{
+		bool arrowIsFocus = false;
+
+		for (int i = 0; i < this->paths && !arrowIsFocus; i++)
+			arrowIsFocus = this->ptrs[i].isFocused(x, y, func);
+
+		if (arrowIsFocus)
+			return true;
 	}
 
 	if (fromNode && func != &View::onMouseRightUp)
@@ -224,6 +250,9 @@ void Node::onMouseLeftUp(int x, int y)
 	//printf("Город %s: onMouseLeftUp\n", this->text.getText());
 
 	movedNode = nullptr;
+
+	if (fromNode)
+		this->onMouseRightUp(x, y);
 }
 
 void Node::onMouseRightDown(int x, int y)

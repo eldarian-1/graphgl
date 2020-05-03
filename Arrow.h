@@ -13,6 +13,7 @@ private:
 	double sX, sY, fX, fY;
 	double angle, length, weight;
 	double* color;
+	bool isFocus;
 	bool isEllip;
 
 public:
@@ -21,6 +22,8 @@ public:
 	Arrow(Ellip* start, int x, int y, double weight = 1.0, double angle = M_PI / 6.0, double length = 20.0, double* color = defaultColorAlt);
 
 	void setEllip(bool isE) { this->isEllip = isE; }
+
+	void setFocus(bool isF) { this->isFocus = isF; }
 
 	double getSX() { return this->sX; }
 	double getSY() { return this->sY; }
