@@ -10,7 +10,7 @@ class App
 private:
 	static App* instance;
 
-	Stack stack;
+	Stack* stack;
 	Graph* graph;
 	bool isStarted;
 

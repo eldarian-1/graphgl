@@ -44,7 +44,6 @@ void Button::onMouseLeftClick(int x, int y)
 void Button::onMouseRightClick(int x, int y)
 {
 	//printf("Button: onMouseRightClick on x: %d, y: %d\n", x, y);
-	this->func();
 }
 
 void Button::onMouseLeftDown(int x, int y)

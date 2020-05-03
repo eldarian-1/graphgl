@@ -11,8 +11,13 @@ private:
 		Button* data = nullptr;
 	}* pTop;
 
+	static Stack* instance;
+
+	Stack() : pTop(nullptr) {}
+
 public:
-	Stack() : pTop(nullptr){}
+
+	static Stack* getInstance();
 
 	void add(Button*);
 	void pop();

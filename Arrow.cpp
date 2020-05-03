@@ -23,8 +23,8 @@ Arrow::Arrow(Ellip* start, int x, int y, double weight, double angle, double len
 	double sin = (y - start->cY) / len;
 	this->sX = start->cX + cos * start->rA;
 	this->sY = start->cY + sin * start->rB;
-	this->fX = x;
-	this->fY = y;
+	this->fX = x - cos * this->length;
+	this->fY = y - sin * this->length;
 }
 
 void Arrow::draw()
@@ -110,7 +110,25 @@ void Arrow::draw()
 	glEnd();
 }
 
-bool Arrow::isFocused(int, int)
+bool Arrow::isFocused(int x, int y)
 {
-	return false;
+	double len = pow(pow(fX - sX, 2.0) + pow(fY - sY, 2.0), 0.5);
+	double cs = (fX - sX) / len;
+	double sn = (fY - sY) / len;
+
+	double t0 = (cs < 0) ? -1.0 : 1.0;
+	double t1 = (sn < 0) ? -1.0 : 1.0;
+
+	double x1, x2, x3, y1, y2, y3;
+
+	x1 = this->fX + t0 * this->length * (cs * 0.666 + cos(acos(cs) - this->angle / 2.0 + M_PI));
+	y1 = this->fY + t1 * this->length * (sn * 0.666 + sin(acos(cs) - this->angle / 2.0 + M_PI));
+
+	x2 = this->fX + t0 * this->length * (cs * 0.666 + cos(acos(cs) + this->angle / 2.0 + M_PI));
+	y2 = this->fY + t1 * this->length * (sn * 0.666 + sin(acos(cs) + this->angle / 2.0 + M_PI));
+
+	x3 = this->fX + t0 * cs * this->length;
+	y3 = this->fY + t1 * sn * this->length;
+
+	return (y > 2.0 * (y1 - y2) * (x - x1) / (x2 - x1) + y2 && y > 2.0 * (y1 - y2) * (x - x2) / (x1 - x2) + y2 && y < y2);
 }

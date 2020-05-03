@@ -13,11 +13,54 @@ Node* Node::fromNode;
 Node* Node::actNode;
 int Node::cXF, Node::cYF, Node::countBtn;
 
+Node::Node(const char* n, int ps, int* p, Node** pr)
+	: text(n), figure(nullptr), paths(ps), tempPath(p), tempPtrs(pr), isFocus(false), isTemp(true), ptrs(nullptr)
+{
+	/*this->ptrs = new Path[ps];
+	for (int i = 0; i < ps; i++)
+		this->ptrs[i] = Path(this, pr[i], p[i]);*/
+}
+
+Node::Node(int x, int y, const char* n, int ps, int* p, Node** pr)
+	: text(n), figure(new Ellip(x, y, n)), paths(ps), tempPath(p), tempPtrs(pr), isFocus(false), isTemp(true), ptrs(nullptr)
+{
+	/*this->ptrs = new Path[ps];
+	for (int i = 0; i < ps; i++)
+		this->ptrs[i] = Path(this, pr[i], p[i]);
+	this->text = Text(n, this->figure);*/
+};
+
 void delBtn();
 
 const char* Node::getText()
 {
 	return this->text.getText();
+}
+
+void Node::setPaths()
+{
+	if (this->isTemp)
+	{
+		this->isTemp = false;
+
+		this->ptrs = new Path[this->paths];
+
+		for (int i = 0; i < this->paths; i++)
+			this->ptrs[i] = Path(this, this->tempPtrs[i], this->tempPath[i]);
+
+		this->text = Text(this->getText(), this->figure);
+
+		delete[] this->tempPath;
+		delete[] this->tempPtrs;
+		this->tempPath = nullptr;
+		this->tempPtrs = nullptr;
+	}
+}
+
+void Node::setEllip()
+{
+	for (int i = 0; i < this->paths; i++)
+		this->ptrs[i].setEllip();
 }
 
 void Node::setCoords(double x, double y)
@@ -44,35 +87,53 @@ void Node::setCoords(double x, double y, double a, double b)
 
 void Node::draw()
 {
-	figure->draw();
-	text.draw();
+	this->setPaths();
 
+	this->figure->draw();
+	this->text.draw();
+	for (int i = 0; i < this->paths; i++)
+	{
+		//this->ptrs[i].setEllip();
+		this->ptrs[i].draw();
+	}
+	/*
 	for (int i = 0; i < this->paths; i++)
 	{
 		bool isEllip = false;
 
-		for (int j = 0; j < this->ptr[i]->paths && !isEllip; j++)
+		for (int j = 0; j < this->ptrs[i]-> && !isEllip; j++)
 			isEllip = this == this->ptr[i]->ptr[j];
 
 		Arrow(this->figure, this->ptr[i]->figure, isEllip, 1, M_PI/6, 20, (this->isFocus)?defaultColorArrowFocus : defaultColorArrowMain).draw();
 	}
+	*/
 }
 
 void Node::setNode(const char* n, int ps, int* p, Node** pr)
 {
 	this->text = Text(n);
 	this->paths = ps;
-	this->path = p;
-	this->ptr = pr;
+
+	delete[] this->ptrs;
+	this->ptrs = nullptr;
+
+	this->tempPath = p;
+	this->tempPtrs = pr;
+	this->isTemp = true;
 }
 
 void Node::moveNode(double x, double y)
 {
 	if (movedNode)
 	{
-		movedNode->figure->setCoords(x + cXF, y + cYF);
+		movedNode->figure->setCoords(
+			(x + cXF + movedNode->figure->getRA() < APP_WIDTH) ? ((x + cXF - movedNode->figure->getRA() > 150) ? (x + cXF) : (150 + movedNode->figure->getRA())) : (APP_WIDTH - movedNode->figure->getRA()),
+			(y + cYF + movedNode->figure->getRB() < APP_HEIGHT) ? ((y + cYF - movedNode->figure->getRB() > 0) ? (y + cYF) : (movedNode->figure->getRB())) : (APP_HEIGHT - movedNode->figure->getRB())
+		);
+
 		movedNode->text = Text(movedNode->text.getText(), movedNode->figure);
 	}
+
 	if (fromNode)
 	{
 		cXF = (int)x;
@@ -180,31 +241,24 @@ void Node::onMouseRightUp(int x, int y)
 	{
 		bool temp = false;
 		for (int i = 0; i < fromNode->paths && !temp; i++)
-			temp = this == fromNode->ptr[i];
+			temp = this == fromNode->ptrs[i].to;
 		if (!temp)
 		{
 			int s;
 			cout << "Растояние от " << fromNode->getText() << " до " << this->getText() << " (0 - дороги не существует): ";
 			cin >> s;
 
-			int* path = fromNode->path;
-			Node** ptr = fromNode->ptr;
+			Path* ptrs = fromNode->ptrs;
 
-			fromNode->path = new int[fromNode->paths + 1];
-			fromNode->ptr = new Node*[fromNode->paths + 1];
+			fromNode->ptrs = new Path[fromNode->paths + 1];
 
 			for (int i = 0; i < fromNode->paths; i++)
-			{
-				fromNode->path[i] = path[i];
-				fromNode->ptr[i] = ptr[i];
-			}
+				fromNode->ptrs[i] = ptrs[i];
 
-			fromNode->path[fromNode->paths] = s;
-			fromNode->ptr[fromNode->paths] = this;
+			fromNode->ptrs[fromNode->paths] = Path(fromNode, this, s);
 			++fromNode->paths;
 
-			delete path;
-			delete[] ptr;
+			delete[] ptrs;
 		}
 	}
 

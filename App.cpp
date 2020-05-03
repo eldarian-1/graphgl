@@ -18,8 +18,9 @@ void mouseFunc(int, int, int, int);
 
 App* App::getInstance(int* argc, char** argv, Button** ctrl, int size)
 {
-	if (instance == 0)
+	if (!instance)
 		instance = new App(argc, argv, ctrl, size);
+
 	return instance;
 }
 
@@ -27,6 +28,7 @@ App::App(int* argc, char** argv, Button** ctrl, int size)
 {
 	this->isStarted = false;
 	this->graph = Graph::getInstance();
+	this->stack = Stack::getInstance();
 
 	this->addStack(ctrl, size);
 
@@ -74,7 +76,7 @@ Node* App::getPtrNode(int num)
 void App::addStack(Button** ctrl, int size)
 {
 	for (int i = 0; i < size; i++)
-		this->stack.add(ctrl[i]);
+		this->stack->add(ctrl[i]);
 }
 
 void App::addGraph(Node* node)
@@ -86,7 +88,7 @@ void App::addGraph(Node* node)
 void App::popStack(int count)
 {
 	for(int i = 0; i < count; i++)
-		this->stack.pop();
+		this->stack->pop();
 }
 
 void App::setCities(Node** cities, int count)
@@ -105,7 +107,7 @@ void App::setCoords()
 void App::draw()
 {
 	this->graph->draw();
-	this->stack.draw();
+	this->stack->draw();
 }
 
 void displayFunc()
@@ -113,6 +115,16 @@ void displayFunc()
 	glClearColor(1, 1, 1, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
 	App::getInstance()->draw();
+
+	glBegin(GL_LINES);
+	double c[] = { 0.75, 0.75, 0.75 };
+	glColor3dv(c);
+	glVertex2d(150.0, 0);
+	glVertex2d(150.0, APP_HEIGHT);
+	glVertex2d(0, 0);
+	glVertex2d(APP_WIDTH, 0);
+	glEnd();
+
 	glutSwapBuffers();
 	glFlush();
 }
@@ -136,7 +148,7 @@ void motionFunc(int x, int y)
 
 void passiveMotionFunc(int x, int y)
 {
-	bool temp = App::getInstance()->stack.isFocused(x, y);
+	bool temp = App::getInstance()->stack->isFocused(x, y);
 	if(!temp)
 		temp = App::getInstance()->graph->isFocused(x, y);
 	if (!temp)
@@ -154,7 +166,7 @@ void mouseFunc(int button, int state, int x, int y)
 	{
 		xDown = x;
 		yDown = y;
-		temp = App::getInstance()->stack.isFocused(x, y, &View::onMouseLeftDown);
+		temp = App::getInstance()->stack->isFocused(x, y, &View::onMouseLeftDown);
 		if(!temp)
 			temp = App::getInstance()->graph->isFocused(x, y, &View::onMouseLeftDown);
 		if(!temp)
@@ -165,7 +177,7 @@ void mouseFunc(int button, int state, int x, int y)
 	{
 		xDown = x;
 		yDown = y;
-		temp = App::getInstance()->stack.isFocused(x, y, &View::onMouseRightDown);
+		temp = App::getInstance()->stack->isFocused(x, y, &View::onMouseRightDown);
 		if (!temp)
 			temp = App::getInstance()->graph->isFocused(x, y, &View::onMouseRightDown);
 		if (!temp)
@@ -174,14 +186,14 @@ void mouseFunc(int button, int state, int x, int y)
 
 	else if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
 	{
-		temp = App::getInstance()->stack.isFocused(x, y, &View::onMouseLeftUp);
+		temp = App::getInstance()->stack->isFocused(x, y, &View::onMouseLeftUp);
 		if (!temp)
 			temp = App::getInstance()->graph->isFocused(x, y, &View::onMouseLeftUp);
 		if(!temp)
 			Window().onMouseRightDown(x, y);
 		if (pow(x - xDown, 2) + pow(y - yDown, 2) <= 100)
 		{
-			temp = App::getInstance()->stack.isFocused(x, y, &View::onMouseLeftClick);
+			temp = App::getInstance()->stack->isFocused(x, y, &View::onMouseLeftClick);
 			if (!temp)
 				temp = App::getInstance()->graph->isFocused(x, y, &View::onMouseLeftClick);
 			if (!temp)
@@ -191,14 +203,14 @@ void mouseFunc(int button, int state, int x, int y)
 
 	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_UP)
 	{
-		temp = App::getInstance()->stack.isFocused(x, y, &View::onMouseRightUp);
+		temp = App::getInstance()->stack->isFocused(x, y, &View::onMouseRightUp);
 		if (!temp)
 			temp = App::getInstance()->graph->isFocused(x, y, &View::onMouseRightUp);
 		if (!temp)
 			Window().onMouseRightUp(x, y);
 		if (pow(x - xDown, 2) + pow(y - yDown, 2) <= 100)
 		{
-			temp = App::getInstance()->stack.isFocused(x, y, &View::onMouseRightClick);
+			temp = App::getInstance()->stack->isFocused(x, y, &View::onMouseRightClick);
 			if (!temp)
 				temp = App::getInstance()->graph->isFocused(x, y, &View::onMouseRightClick);
 			if (!temp)

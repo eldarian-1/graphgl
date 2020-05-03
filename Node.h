@@ -3,29 +3,28 @@
 #include "View.h"
 #include "Ellip.h"
 #include "Text.h"
+#include "Path.h"
 
 class Node : public View
 {
 private:
 	friend class Graph;
+	friend class Path;
 
 	Text text;
 	Ellip* figure;
-
 	int paths;
-	int* path;
-	Node** ptr;
+	Path* ptrs;
 	bool isFocus;
 
-public:
-	Node(const char* n = nullptr, int ps = 0, int* p = nullptr, Node** pr = nullptr)
-		: text(n), figure(nullptr), paths(ps), path(p), ptr(pr), isFocus(false) {};
+	int* tempPath;
+	Node** tempPtrs;
+	bool isTemp;
 
-	Node(int x, int y, const char* n = nullptr, int ps = 0, int* p = nullptr, Node** pr = nullptr)
-		: figure(new Ellip(x, y, n)), paths(ps), path(p), ptr(pr), isFocus(false)
-	{
-		this->text = Text(n, this->figure);
-	};
+public:
+	Node(const char* n = nullptr, int ps = 0, int* p = nullptr, Node** pr = nullptr);
+
+	Node(int x, int y, const char* n = nullptr, int ps = 0, int* p = nullptr, Node** pr = nullptr);
 
 	~Node(){}
 
@@ -36,10 +35,14 @@ public:
 
 	const char* getText();
 
+	void setPaths();
+
 	int length() { return text.length(); }
+	void setEllip();
 	void setCoords(double x, double y);
 	void setCoords(double x, double y, double r);
 	void setCoords(double x, double y, double a, double b);
+	
 	void draw();
 
 	void setNode(const char* n, int ps, int* p, Node** pr);

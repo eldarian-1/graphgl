@@ -14,8 +14,9 @@ Graph* Graph::instance = nullptr;
 
 Graph* Graph::getInstance(Node** c, int i)
 {
-	if (instance == nullptr)
+	if (!instance)
 		instance = new Graph(c, i);
+
 	return instance;
 }
 
@@ -65,6 +66,15 @@ void Graph::setCoords()
 	}
 }
 
+void Graph::setPaths()
+{
+	for (int i = 0; i < this->count; i++)
+		this->nodes[i]->setPaths();
+
+	for (int i = 0; i < this->count; i++)
+		this->nodes[i]->setEllip();
+}
+
 void Graph::setCities(Node** cities, int count)
 {
 	if (this->nodes != nullptr)
@@ -76,6 +86,8 @@ void Graph::setCities(Node** cities, int count)
 
 void Graph::draw()
 {
+	this->setPaths();
+
 	for (int i = 0; i < this->count; i++)
 		this->nodes[i]->draw();
 
@@ -98,32 +110,23 @@ void Graph::delNode(Node* node)
 			continue;
 
 		for (int j = 0; j < this->nodes[i]->paths && !isIs; j++)
-			isIs = this->nodes[i]->ptr[j] == node;
+			isIs = this->nodes[i]->ptrs[j].to == node;
 
 		if (isIs)
 		{
 			int j;
-			int* path = this->nodes[i]->path;
-			Node** ptr = this->nodes[i]->ptr;
+			Path* ptrs = this->nodes[i]->ptrs;
 
-			this->nodes[i]->path = new int[this->nodes[i]->paths - 1];
-			this->nodes[i]->ptr = new Node*[this->nodes[i]->paths - 1];
+			this->nodes[i]->ptrs = new Path[this->nodes[i]->paths - 1];
 
-			for (j = 0; ptr[j] != node; j++)
-			{
-				this->nodes[i]->path[j] = path[j];
-				this->nodes[i]->ptr[j] = ptr[j];
-			}
+			for (j = 0; ptrs[j].to != node; j++)
+				this->nodes[i]->ptrs[j] = ptrs[j];
 
 			for (++j; j < this->nodes[i]->paths; j++)
-			{
-				this->nodes[i]->path[j - 1] = path[j];
-				this->nodes[i]->ptr[j - 1] = ptr[j];
-			}
+				this->nodes[i]->ptrs[j - 1] = ptrs[j];
 
 			--this->nodes[i]->paths;
-			delete[] path;
-			delete[] ptr;
+			delete[] ptrs;
 		}
 	}
 

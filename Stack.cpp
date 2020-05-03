@@ -1,5 +1,15 @@
 #include "Stack.h"
 
+Stack* Stack::instance = nullptr;
+
+Stack* Stack::getInstance()
+{
+	if (!instance)
+		instance = new Stack();
+
+	return instance;
+}
+
 void Stack::add(Button* data)
 {
 	if (this->pTop != nullptr)

@@ -23,6 +23,7 @@ public:
 
 	void addNode(Node*);
 	void setCoords();
+	void setPaths();
 	void setCities(Node**, int);
 	void draw();
 
