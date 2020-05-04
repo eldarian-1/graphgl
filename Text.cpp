@@ -2,13 +2,18 @@
 
 #include <glut.h>
 
+void Text::set(const char* t, Ellip* ellipse, double* c)
+{
+	this->text = t;
+	this->cX = ellipse->getCX() - ellipse->getRA() + (ellipse->getRA() * 2.0 - strlen(t) * 10.0) / 2.0;
+	this->cY = ellipse->getCY() - ellipse->getRB() + (ellipse->getRB() * 2.0 - 10.0) / 2.0 + 10;
+	this->color = c;
+}
+
 void Text::draw()
 {
 	glRotated(this->angle, 0, 0, 1.0);
-	glColor3dv(this->color);
-
-	/*glTranslated(this->cX, this->cY, 0);
-	glCallLists(strlen(this->text), GL_UNSIGNED_BYTE, this->text);*/
+	glColor3dv((this->color)?this->color:defaultColorAlt);
 
 	for (int i = 0; this->text[i] != '\0'; i++)
 	{

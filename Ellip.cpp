@@ -26,6 +26,18 @@ void Ellip::setCoords(double x, double y, double a, double b)
 	this->rB = b;
 }
 
+void Ellip::set(double x, double y, const char* text, double dop, double w, double* cM, double* cB, double* cF)
+{
+	this->cX = x;
+	this->cY = y;
+	this->rA = strlen(text) * 5 + dop;
+	this->rB = 20;
+	this->weight = w;
+	this->colorMain = cM;
+	this->colorBorder = cB;
+	this->colorFocus = cF;
+}
+
 void Ellip::draw()
 {
 	if (this->weight != 0)

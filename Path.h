@@ -12,19 +12,27 @@ private:
 	Node* from;
 	Node* to;
 	int length;
+
 	bool isFocus;
+	bool isFocusEllip;
 	bool isEllip;
+
 	Arrow* arrow;
+	Ellip* ellip;
+	Text* text;
 
 public:
-	Path(Node* frN = nullptr, Node* tN = nullptr, int len =  0, bool isF = false, bool isE = true, Arrow* ar = nullptr)
-		: from(frN), to(tN), length(len), isFocus(isF), isEllip(isE), arrow(ar) {}
+	Path(Node* frN = nullptr, Node* tN = nullptr, int len = 0, bool isF = false, bool isFE = false, bool isE = true, Arrow* ar = nullptr, Ellip* el = nullptr, Text* t = nullptr);
 
 	static Path* actPath;
 	static Node* actNode;
 	static int countBtn;
 
-	void setEllip();
+	void setLength(int len);
+
+	void setEllip(bool isE);
+	void setEllip(double* x = nullptr, double* y = nullptr);
+	void setEllipText(double x, double y);
 	void draw();
 
 	bool isFocused(int, int, void (View::*)(int, int) = nullptr);
@@ -37,5 +45,6 @@ public:
 	void onMouseRightDown(int, int);
 	void onMouseRightUp(int, int);
 
+	friend void updatePathBtn();
 	friend void delPathBtn();
 };

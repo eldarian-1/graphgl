@@ -30,6 +30,8 @@ public:
 	double getFX() { return this->fX; }
 	double getFY() { return this->fY; }
 
+	void setXYforEllip(double* x, double *y, int length);
+
 	void draw();
 	bool isFocused(int, int);
 

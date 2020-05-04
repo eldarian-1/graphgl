@@ -27,6 +27,60 @@ Arrow::Arrow(Ellip* start, int x, int y, double weight, double angle, double len
 	this->fY = y - sin * this->length;
 }
 
+void Arrow::setXYforEllip(double* x, double* y, int length)
+{
+	double len = pow(pow(fX - sX, 2.0) + pow(fY - sY, 2.0), 0.5);
+	double cs = (fX - sX) / len;
+	double sn = (fY - sY) / len;
+
+	double t0 = (cs < 0) ? -1.0 : 1.0;
+	double t1 = (sn < 0) ? -1.0 : 1.0;
+
+	cs = fabs(cs);
+	sn = fabs(sn);
+
+	char buffer[20];
+	myitoa(length, buffer, 10);
+	int str = strlen(buffer);
+
+	if (this->isEllip)
+	{
+		double step = M_PI / 180;
+
+		double rA = len / 2.0;
+		double rB = 20.0;
+
+		double X0 = this->sX + rA * cs * t0;
+		double Y0 = this->sY + rA * sn * t1;
+
+		for (double angle = 0; angle <= M_PI; angle += step)
+		{
+			double X = rA * cos(angle);
+			double Y = rB * sin(angle);
+
+			double nX = X * t0 * cs - Y * t1 * sn;
+			double nY = X * t1 * sn + Y * t0 * cs;
+
+			double nnX = X0 - nX;
+			double nnY = Y0 - nY;
+
+			double fl = pow(pow(this->fX - nnX, 2) + pow(this->fY - nnY, 2), 0.5);
+
+			if (fl <= str*5 + 45)
+			{
+				*x = nnX;
+				*y = nnY;
+				break;
+			}
+		}
+	}
+	else
+	{
+		*x = this->sX + cs * t0 * (len - 45);
+		*y = this->sY + sn * t1 * (len - 45);
+	}
+}
+
 void Arrow::draw()
 {
 	double len = pow(pow(fX - sX, 2.0) + pow(fY - sY, 2.0), 0.5);

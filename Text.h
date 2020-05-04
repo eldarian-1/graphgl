@@ -19,7 +19,8 @@ private:
 	double* color;
 
 public:
-	Text(const char* t = nullptr, double* c = nullptr, double x = 0, double y = 0, double ang = 0) : text(t), color((c) ? c : defaultColorAlt), cX(x), cY(y), angle(ang) {};
+	Text(const char* t = nullptr, double* c = defaultColorAlt, double x = 0, double y = 0, double ang = 0)
+		: text(t), color(c), cX(x), cY(y), angle(ang) {};
 
 	Text(const char* t, Rect* rect, double* c = nullptr)
 		: Text(t, c,
@@ -32,6 +33,8 @@ public:
 			ellipse->getCX() - ellipse->getRA() + (ellipse->getRA() * 2.0 - strlen(t) * 10.0) / 2.0,
 			ellipse->getCY() - ellipse->getRB() + (ellipse->getRB() * 2.0 - 10.0) / 2.0 + 10
 		) {};
+
+	void set(const char* t, Ellip* ellipse, double* c = defaultColorAlt);
 
 	int length() { return strlen(this->text); }
 	const char* getText() { return this->text; }

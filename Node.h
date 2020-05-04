@@ -22,9 +22,11 @@ private:
 	bool isTemp;
 
 public:
-	Node(const char* n = nullptr, int ps = 0, int* p = nullptr, Node** pr = nullptr);
+	Node(const char* n = nullptr, int ps = 0, int* p = nullptr, Node** pr = nullptr)
+		: text(n), figure(nullptr), paths(ps), tempPath(p), tempPtrs(pr), isFocus(false), isTemp(true), ptrs(nullptr) {}
 
-	Node(int x, int y, const char* n = nullptr, int ps = 0, int* p = nullptr, Node** pr = nullptr);
+	Node(int x, int y, const char* n, int ps, int* p, Node** pr)
+		: text(n), figure(new Ellip(x, y, n)), paths(ps), tempPath(p), tempPtrs(pr), isFocus(false), isTemp(true), ptrs(nullptr) {}
 
 	~Node(){}
 
@@ -36,9 +38,9 @@ public:
 	const char* getText();
 
 	void setPaths();
+	void setEllip();
 
 	int length() { return text.length(); }
-	void setEllip();
 	void setCoords(double x, double y);
 	void setCoords(double x, double y, double r);
 	void setCoords(double x, double y, double a, double b);

@@ -13,23 +13,6 @@ Node* Node::fromNode;
 Node* Node::actNode;
 int Node::cXF, Node::cYF, Node::countBtn;
 
-Node::Node(const char* n, int ps, int* p, Node** pr)
-	: text(n), figure(nullptr), paths(ps), tempPath(p), tempPtrs(pr), isFocus(false), isTemp(true), ptrs(nullptr)
-{
-	/*this->ptrs = new Path[ps];
-	for (int i = 0; i < ps; i++)
-		this->ptrs[i] = Path(this, pr[i], p[i]);*/
-}
-
-Node::Node(int x, int y, const char* n, int ps, int* p, Node** pr)
-	: text(n), figure(new Ellip(x, y, n)), paths(ps), tempPath(p), tempPtrs(pr), isFocus(false), isTemp(true), ptrs(nullptr)
-{
-	/*this->ptrs = new Path[ps];
-	for (int i = 0; i < ps; i++)
-		this->ptrs[i] = Path(this, pr[i], p[i]);
-	this->text = Text(n, this->figure);*/
-};
-
 void delBtn();
 
 const char* Node::getText()
@@ -60,7 +43,14 @@ void Node::setPaths()
 void Node::setEllip()
 {
 	for (int i = 0; i < this->paths; i++)
-		this->ptrs[i].setEllip();
+	{
+		bool temp = false;
+
+		for (int j = 0; j < this->ptrs[i].from->paths && !temp; j++)
+			temp = this->ptrs[i].from == this->ptrs[i].from->ptrs[j].to;
+
+		this->ptrs[i].setEllip(temp);
+	}
 }
 
 void Node::setCoords(double x, double y)
@@ -91,22 +81,9 @@ void Node::draw()
 
 	this->figure->draw();
 	this->text.draw();
+
 	for (int i = 0; i < this->paths; i++)
-	{
-		//this->ptrs[i].setEllip();
 		this->ptrs[i].draw();
-	}
-	/*
-	for (int i = 0; i < this->paths; i++)
-	{
-		bool isEllip = false;
-
-		for (int j = 0; j < this->ptrs[i]-> && !isEllip; j++)
-			isEllip = this == this->ptr[i]->ptr[j];
-
-		Arrow(this->figure, this->ptr[i]->figure, isEllip, 1, M_PI/6, 20, (this->isFocus)?defaultColorArrowFocus : defaultColorArrowMain).draw();
-	}
-	*/
 }
 
 void Node::setNode(const char* n, int ps, int* p, Node** pr)
@@ -133,6 +110,13 @@ void Node::delPath(Path* p)
 
 	for (++i; i < this->paths; i++)
 		this->ptrs[i - 1] = temp[i];
+
+	for(int i = 0; i < p->to->paths; i++)
+		if (p->from == p->to->ptrs[i].to)
+		{
+			p->to->ptrs[i].setEllip(false);
+			break;
+		}
 
 	--this->paths;
 	delete[] temp;
@@ -285,6 +269,7 @@ void Node::onMouseRightUp(int x, int y)
 				fromNode->ptrs[i] = ptrs[i];
 
 			fromNode->ptrs[fromNode->paths] = Path(fromNode, this, s);
+
 			++fromNode->paths;
 
 			delete[] ptrs;
