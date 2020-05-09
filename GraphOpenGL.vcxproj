@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AboutView.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="AppFunc.cpp" />
     <ClCompile Include="Arrow.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AboutView.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="AppFunc.h" />
     <ClInclude Include="Arrow.h" />

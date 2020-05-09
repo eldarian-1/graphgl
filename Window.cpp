@@ -2,6 +2,7 @@
 
 #include "App.h"
 #include "AppFunc.h"
+#include "AboutView.h"
 
 #include <iostream>
 #include <glut.h>
@@ -13,22 +14,54 @@ int Window::actY = 0;
 
 bool Window::isFocused(int x, int y, void (View::*func)(int, int))
 {
+	actX = x;
+	actY = y;
+
+	if (x >= 150 && x <= APP_WIDTH)
+	{
+		this->onFocused();
+		return true;
+	}
+	
+	onUnfocused();
 	return false;
 }
 
 void Window::onFocused()
 {
 	//printf("Window: onFocused\n");
+
+	char** row = new char* [2];
+	int i;
+	char buffer[10];
+
+	myitoa(actX, buffer, 10);
+	row[0] = new char[8]{ 'x', ':', ' ' };
+	for (i = 0; i < strlen(buffer); i++)
+		row[0][3 + i] = buffer[i];
+	row[0][3 + i] = '\0';
+
+	myitoa(actY, buffer, 10);
+	row[1] = new char[8]{ 'y', ':', ' ' };
+	for (i = 0; i < strlen(buffer); i++)
+		row[1][3 + i] = buffer[i];
+	row[1][3 + i] = '\0';
+
+	AboutView::getInstance()->set(row, 2);
 }
 
 void Window::onUnfocused()
 {
 	//printf("Window: onUnfocused\n");
+
+	AboutView::getInstance()->clear();
 }
 
 void Window::onMouseLeftClick(int x, int y)
 {
 	//printf("Window: onMouseLeftClick\n");
+	
+	App::getInstance()->delOtherBtn();
 }
 
 void Window::onMouseRightClick(int x, int y)
@@ -38,11 +71,7 @@ void Window::onMouseRightClick(int x, int y)
 	actX = x;
 	actY = y;
 
-	if (countBtn)
-	{
-		App::getInstance()->popStack(countBtn);
-		countBtn = 0;
-	}
+	App::getInstance()->delOtherBtn();
 
 	Button* ctrl[] = {
 		new Button(x, y, 120, 30, "Add node", addBtn)
@@ -57,12 +86,6 @@ void Window::onMouseRightClick(int x, int y)
 void Window::onMouseLeftDown(int x, int y)
 {
 	//printf("Window: onMouseLeftDown\n");
-
-	if (countBtn)
-	{
-		App::getInstance()->popStack(countBtn);
-		countBtn = 0;
-	}
 }
 
 void Window::onMouseLeftUp(int x, int y)

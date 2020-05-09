@@ -10,3 +10,5 @@ char* myitoa(int number, char* destination, int base);
 int fibonachi(int num);
 
 double squareTriangle(double x0, double y0, double x1, double y1, double x2, double y2);
+
+void solve(int*** mat, int n, int** cost, int* path);

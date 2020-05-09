@@ -75,6 +75,9 @@
     <ClCompile Include="Path.cpp">
       <Filter>Исходные файлы\View</Filter>
     </ClCompile>
+    <ClCompile Include="AboutView.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="Path.h">
       <Filter>Файлы заголовков\View</Filter>
+    </ClInclude>
+    <ClInclude Include="AboutView.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

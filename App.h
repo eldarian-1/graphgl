@@ -3,6 +3,7 @@
 #include "AppFunc.h"
 #include "Stack.h"
 #include "Graph.h"
+#include "AboutView.h"
 #include "Node.h"
 
 class App
@@ -12,6 +13,7 @@ private:
 
 	Stack* stack;
 	Graph* graph;
+	AboutView* aboutView;
 	bool isStarted;
 
 	App(int*, char**, Button**, int);
@@ -34,6 +36,11 @@ public:
 	void popStack(int);
 	void setCities(Node**, int);
 	void setCoords();
+
+	void delOtherBtn();
+
+	void getMatrix(int***& mat, int& n, int**& cost, int*& path);
+	void outPath(int* path);
 
 	friend void displayFunc();
 	friend void reshapeFunc(int, int);

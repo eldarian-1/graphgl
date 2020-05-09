@@ -45,10 +45,10 @@ void btnAutoCities()
 
 	counts[0] = counts[1] = counts[2] = counts[3] = 3;
 
-	paths[0][0] = paths[0][1] = paths[0][2] =
-		paths[1][0] = paths[1][1] = paths[1][2] = 
-		paths[2][0] = paths[2][1] = paths[2][2] = 
-		paths[3][0] = paths[3][1] = paths[3][2] = 101;
+	paths[0] = new int[3]{ 5, 11, 9 };
+	paths[1] = new int[3]{ 10, 8, 7 };
+	paths[2] = new int[3]{ 7, 14, 8 };
+	paths[3] = new int[3]{ 12, 6, 15};
 
 	cities[0] = new Node("Hamburg", counts[0], paths[0], ptrs[0]);
 	cities[1] = new Node("Dresden", counts[1], paths[1], ptrs[1]);
@@ -61,12 +61,12 @@ void btnAutoCities()
 	ptrs[1][0] = cities[0];
 	ptrs[1][1] = cities[2];
 	ptrs[1][2] = cities[3];
-	ptrs[2][0] = cities[1];
-	ptrs[2][1] = cities[0];
+	ptrs[2][0] = cities[0];
+	ptrs[2][1] = cities[1];
 	ptrs[2][2] = cities[3];
-	ptrs[3][0] = cities[1];
-	ptrs[3][1] = cities[2];
-	ptrs[3][2] = cities[0];
+	ptrs[3][0] = cities[0];
+	ptrs[3][1] = cities[1];
+	ptrs[3][2] = cities[2];
 
 	App::getInstance()->setCities(cities, count);
 }
@@ -140,5 +140,14 @@ void btnSetCoords()
 
 void btnFindPath()
 {
+	int*** mat;
+	int n;
+	int** cost;
+	int* path;
 
+	App::getInstance()->getMatrix(mat, n, cost, path);
+
+	solve(mat, n, cost, path);
+
+	App::getInstance()->outPath(path);
 }

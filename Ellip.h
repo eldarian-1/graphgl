@@ -43,6 +43,8 @@ public:
 	void set(double x, double y, const char* text, double dop = 10, double w = defaultWeight, double* cM = defaultColorMain, double* cB = defaultColorAlt, double* cF = defaultColorFocus);
 	void setCircle() { this->rB = this->rA; }
 
+	void updEllip(const char*, double = 10);
+
 	void draw();
 	bool isFocused(int x, int y);
 

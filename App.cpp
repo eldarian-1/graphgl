@@ -29,6 +29,7 @@ App::App(int* argc, char** argv, Button** ctrl, int size)
 	this->isStarted = false;
 	this->graph = Graph::getInstance();
 	this->stack = Stack::getInstance();
+	this->aboutView = AboutView::getInstance();
 
 	this->addStack(ctrl, size);
 
@@ -104,10 +105,42 @@ void App::setCoords()
 	glutPostRedisplay();
 }
 
+void App::delOtherBtn()
+{
+	if (Window::countBtn)
+	{
+		this->popStack(Window::countBtn);
+		Window::countBtn = 0;
+	}
+
+	if (Node::countBtn)
+	{
+		this->popStack(Node::countBtn);
+		Node::countBtn = 0;
+	}
+
+	if (Path::countBtn)
+	{
+		this->popStack(Path::countBtn);
+		Path::countBtn = 0;
+	}
+}
+
+void App::getMatrix(int***& mat, int& n, int**& cost, int*& path)
+{
+	this->graph->getMatrix(mat, n, cost, path);
+}
+
+void App::outPath(int* path)
+{
+	this->graph->outPath(path);
+}
+
 void App::draw()
 {
 	this->graph->draw();
 	this->stack->draw();
+	this->aboutView->draw();
 }
 
 void displayFunc()
@@ -152,9 +185,7 @@ void passiveMotionFunc(int x, int y)
 	if(!temp)
 		temp = App::getInstance()->graph->isFocused(x, y);
 	if (!temp)
-		Window().onFocused();
-	else
-		Window().onUnfocused();
+		Window().isFocused(x, y);
 	glutPostRedisplay();
 }
 

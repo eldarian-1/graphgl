@@ -48,6 +48,7 @@ public:
 	void draw();
 
 	void setNode(const char* n, int ps, int* p, Node** pr);
+	void updNode(const char*);
 
 	void delPath(Path* p);
 
@@ -61,5 +62,6 @@ public:
 	void onMouseRightDown(int, int);
 	void onMouseRightUp(int, int);
 
+	friend void updBtn();
 	friend void delBtn();
 };

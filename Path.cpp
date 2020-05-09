@@ -127,43 +127,31 @@ bool Path::isFocused(int x, int y, void (View::* func)(int, int))
 
 void Path::onFocused()
 {
-	printf("Path: onFocused from %s to %s\n", this->from->getText(), this->to->getText());
-
-
+	//printf("Path: onFocused from %s to %s\n", this->from->getText(), this->to->getText());
 }
 
 void Path::onUnfocused()
 {
-	printf("Path: onUnfocused\n");
-
-	
+	//printf("Path: onUnfocused\n");
 }
 
 void Path::onMouseLeftClick(int x, int y)
 {
 	//printf("Button: onMouseLeftClick on x: %d, y: %d\n", x, y);
-
-	if (countBtn)
-	{
-		App::getInstance()->popStack(countBtn);
-		countBtn = 0;
-	}
+	
+	App::getInstance()->delOtherBtn();
 }
 
 void Path::onMouseRightClick(int x, int y)
 {
 	//printf("Button: onMouseRightClick on x: %d, y: %d\n", x, y);
 
+	App::getInstance()->delOtherBtn();
+
 	if (isFocusEllip && isFocus)
 	{
 		actNode = this->from;
 		actPath = this;
-
-		if (countBtn)
-		{
-			App::getInstance()->popStack(countBtn);
-			countBtn = 0;
-		}
 
 		Button* ctrl[] = {
 			new Button(x, y, 120, 30, "Update path", updatePathBtn),

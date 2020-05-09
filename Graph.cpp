@@ -1,6 +1,8 @@
 #include "Graph.h"
 
-#include <math.h>
+#include <iostream>
+#include <cmath>
+using namespace std;
 
 #include "AppFunc.h"
 #include "Arrow.h"
@@ -142,6 +144,62 @@ void Graph::delNode(Node* node)
 
 	--this->count;
 	delete[] temp;
+}
+
+void Graph::getMatrix(int***& mat, int& n, int**& cost, int*& path)
+{
+	n = this->count;
+
+	cost = new int* [n];
+	for (int i = 0; i < n; i++)
+		cost[i] = new int[n];
+
+	path = new int[n];
+	for (int i = 0; i < n; i++)
+		path[i] = -1;
+
+	mat = new int** [n];
+	for (int i = 0; i < n; i++)
+	{
+		mat[i] = new int* [n];
+		for (int j = 0; j < n; j++)
+			mat[i][j] = nullptr;
+	}
+
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < this->nodes[i]->paths; j++)
+		{
+			bool f = false;
+			for (int k = 0; k < n && !f; k++)
+			{
+				f = this->nodes[k] == this->nodes[i]->ptrs[j].to;
+				if (f)
+					mat[i][k] = new int(this->nodes[i]->ptrs[j].length);
+			}
+		}
+}
+
+void Graph::outPath(int* path)
+{
+	int sum = 0;
+
+	for (int i = 0, j = 0; i < this->count; i++)
+	{
+		cout << this->nodes[j]->getText() << " - ";
+
+		bool f = false;
+
+		for (int k = 0; k < this->count && !f; k++)
+		{
+			f = this->nodes[j]->ptrs[k].to == this->nodes[path[j]];
+			if (f)
+				sum += this->nodes[j]->ptrs[k].length;
+		}
+
+		j = path[j];
+	}
+	cout << this->nodes[0]->getText() << endl;
+	cout << "Path: " << sum << endl;
 }
 
 bool Graph::isFocused(int x, int y, void (View::* func)(int, int))

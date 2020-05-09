@@ -36,3 +36,68 @@ double squareTriangle(double x0, double y0, double x1, double y1, double x2, dou
 	double cs = (x1 + x2 - 2 * x0 + y1 + y2 - 2 * y0)/(len0 * len1);
 	return fabs(0.5 * len0 * len1 * sin(acos(cs)));
 }
+
+void solve(int*** mat, int n, int** cost, int* path)
+{
+	for (int i = 0; i < n; i++)
+	{
+		int min = 1000000;
+		for (int j = 0; j < n; j++)
+			if (mat[i][j] && min > * mat[i][j])
+				min = *mat[i][j];
+		for (int j = 0; j < n; j++)
+			if (mat[i][j])
+				*mat[i][j] -= min;
+	}
+	for (int j = 0; j < n; j++)
+	{
+		int min = 1000000;
+		for (int i = 0; i < n; i++)
+			if (mat[i][j] && min > * mat[i][j])
+				min = *mat[i][j];
+		for (int i = 0; i < n; i++)
+			if (mat[i][j])
+				*mat[i][j] -= min;
+	}
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+		{
+			if (mat[i][j] && !*mat[i][j])
+			{
+				int hmin = 1000000;
+				int vmin = 1000000;
+
+				for (int l = 0; l < n; l++)
+					if (l != i && mat[l][j] && hmin > * mat[l][j])
+						hmin = *mat[l][j];
+
+				for (int l = 0; l < n; l++)
+					if (l != j && mat[i][l] && vmin > * mat[i][l])
+						vmin = *mat[i][l];
+
+				cost[i][j] = hmin + vmin;
+			}
+		}
+	int mcost = 0, mi = 0, mj = 0;
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			if (mat[i][j] && mcost < cost[i][j])
+			{
+				mcost = cost[i][j];
+				mi = i;
+				mj = j;
+			}
+	path[mi] = mj;
+
+	for (int i = 0; i < n; i++)
+		mat[i][mj] = nullptr;
+
+	for (int i = 0; i < n; i++)
+		mat[mi][i] = nullptr;
+
+	mat[mj][mi] = nullptr;
+
+	for (int i = 0; i < n; i++)
+		if (path[i] == -1)
+			solve(mat, n, cost, path);
+}

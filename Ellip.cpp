@@ -38,6 +38,11 @@ void Ellip::set(double x, double y, const char* text, double dop, double w, doub
 	this->colorFocus = cF;
 }
 
+void Ellip::updEllip(const char* text, double dop)
+{
+	this->rA = strlen(text) * 5 + dop;
+}
+
 void Ellip::draw()
 {
 	if (this->weight != 0)

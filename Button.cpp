@@ -1,5 +1,7 @@
 #include "Button.h"
 
+#include "AboutView.h"
+
 void Button::draw()
 {
 	rect.draw();
@@ -28,6 +30,8 @@ bool Button::isFocused(int x, int y, void (View::* func)(int, int))
 void Button::onFocused()
 {
 	//printf("Button: onFocused on x: %d, y: %d\n", x, y);
+
+	AboutView::getInstance()->set("Click here and something will happen");
 }
 
 void Button::onUnfocused()

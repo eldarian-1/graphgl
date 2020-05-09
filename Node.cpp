@@ -14,6 +14,7 @@ Node* Node::actNode;
 int Node::cXF, Node::cYF, Node::countBtn;
 
 void delBtn();
+void updBtn();
 
 const char* Node::getText()
 {
@@ -97,6 +98,12 @@ void Node::setNode(const char* n, int ps, int* p, Node** pr)
 	this->tempPath = p;
 	this->tempPtrs = pr;
 	this->isTemp = true;
+}
+
+void Node::updNode(const char* text)
+{
+	this->figure->updEllip(text);
+	this->text = Text(text, this->figure);
 }
 
 void Node::delPath(Path* p)
@@ -187,6 +194,8 @@ void Node::onUnfocused()
 void Node::onMouseLeftClick(int x, int y)
 {
 	//printf("Город %c: onMouseLeftClick\n", char('A' + this->focused));
+	
+	App::getInstance()->delOtherBtn();
 }
 
 void Node::onMouseRightClick(int x, int y)
@@ -198,14 +207,11 @@ void Node::onMouseRightClick(int x, int y)
 	cXF = x;
 	cYF = y;
 
-	if (countBtn)
-	{
-		App::getInstance()->popStack(countBtn);
-		countBtn = 0;
-	}
+	App::getInstance()->delOtherBtn();
 
 	Button* ctrl[] = {
-		new Button(x, y, 120, 30, "Delete node", delBtn)
+		new Button(x, y, 120, 30, "Update node", updBtn),
+		new Button(x, y + 30, 120, 30, "Delete node", delBtn)
 	};
 
 	countBtn = (sizeof ctrl) / sizeof(Button*);
@@ -221,12 +227,6 @@ void Node::onMouseLeftDown(int x, int y)
 	cYF = (int)this->figure->getCY() - y;
 
 	movedNode = this;
-
-	if (countBtn)
-	{
-		App::getInstance()->popStack(countBtn);
-		countBtn = 0;
-	}
 }
 
 void Node::onMouseLeftUp(int x, int y)
@@ -277,6 +277,26 @@ void Node::onMouseRightUp(int x, int y)
 	}
 
 	fromNode = nullptr;
+}
+
+void updBtn()
+{
+	App::getInstance()->popStack(Node::countBtn);
+	Node::countBtn = 0;
+
+	char buffer[30];
+
+	cout << "Введите новое название города " << Node::actNode->getText() << ": ";
+	cin >> buffer;
+
+	int len = strlen(buffer);
+	char* text = new char[len + 1];
+	for (int i = 0; i < len; i++)
+		text[i] = buffer[i];
+	text[len] = '\0';
+
+	Node::actNode->updNode(text);
+	Node::actNode = nullptr;
 }
 
 void delBtn()
