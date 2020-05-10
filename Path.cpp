@@ -37,21 +37,29 @@ void Path::setEllip(double* x, double* y)
 		if (this->from == this->to->ptrs[i].to)
 		{
 			if (this->arrow)
-				delete this->arrow;
+			{
+				Arrow* temp = this->arrow;
+				this->arrow = new Arrow(this->from->figure, this->to->figure, this->arrow->getFocus(), true);
+				delete temp;
+			}
+			else
+				this->arrow = new Arrow(this->from->figure, this->to->figure, false, true);
 
 			this->isEllip = true;
-			this->arrow = new Arrow(this->from->figure, this->to->figure, true);
-
 			this->arrow->setXYforEllip(x, y, this->length);
 
 			return;
 		}
 
 	if (this->arrow)
-		delete this->arrow;
-
-	this->isEllip = false;
-	this->arrow = new Arrow(this->from->figure, this->to->figure, false);
+	{
+		Arrow* temp = this->arrow;
+		this->arrow = new Arrow(this->from->figure, this->to->figure, this->arrow->getFocus(), false);
+		this->isEllip = false;
+		delete temp;
+	}
+	else
+		this->arrow = new Arrow(this->from->figure, this->to->figure);
 
 	this->arrow->setXYforEllip(x, y, this->length);
 }
@@ -67,13 +75,10 @@ void Path::setEllipText(double x, double y)
 		text[i] = buffer[i];
 	text[str] = '\0';
 
-	double* cM = new double[3]{ 0.95, 0.95, 0.95 };
-	double* cF = new double[3]{ 0.95, 1.0, 1.0 };
-
 	if (this->ellip)
-		this->ellip->set(x, y, text, 3.0, 0, cM, nullptr, cF);
+		this->ellip->set(x, y, text, 3.0, 0, defaultColorMain, nullptr, defaultColorFocus);
 	else
-		this->ellip = new Ellip(x, y, text, 3.0, 0, cM, nullptr, cF);
+		this->ellip = new Ellip(x, y, text, 3.0, 0, defaultColorMain, nullptr, defaultColorFocus);
 
 	if(this->text)
 		this->text->set(text, this->ellip);
@@ -194,8 +199,8 @@ void Path::onMouseRightClick(int x, int y)
 		actPath = this;
 
 		Button* ctrl[] = {
-			new Button(x, y, 120, 30, "Update path", updatePathBtn),
-			new Button(x, y + 29, 120, 30, "Delete path", delPathBtn),
+			new Button(x, y, 120, 30, "Update path", updatePathBtn, new const char* [3] {"Click here to", "change the", "distance"}, 3),
+			new Button(x, y + 29, 120, 30, "Delete path", delPathBtn, new const char* [2] {"Click here to", "delete the path"}, 2),
 		};
 
 		countBtn = (sizeof ctrl) / sizeof(Button*);

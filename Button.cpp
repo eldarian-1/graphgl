@@ -31,7 +31,8 @@ void Button::onFocused()
 {
 	//printf("Button: onFocused on x: %d, y: %d\n", x, y);
 
-	AboutView::getInstance()->set(new const char* [3]{ "Click here", "and something", "will happen" }, 3);
+	if(this->desc)
+		AboutView::getInstance()->set(this->desc, this->sizeD, 0);
 }
 
 void Button::onUnfocused()

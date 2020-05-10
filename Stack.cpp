@@ -51,9 +51,12 @@ bool Stack::isFocused(int x, int y, void (View::* func)(int, int))
 {
 	bool bl = false;
 	Node* temp = this->pTop;
-	while (temp && !bl)
+	while (temp)
 	{
-		bl = temp->data->isFocused(x, y, func);
+		if(!bl)
+			bl = temp->data->isFocused(x, y, func);
+		else
+			temp->data->isFocused(x, y, func);
 		temp = temp->pLow;
 	}
 	return bl;

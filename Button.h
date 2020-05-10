@@ -13,9 +13,12 @@ private:
 	void (*func)();
 	bool isFocus;
 
+	const char** desc;
+	int sizeD;
+
 public:
-	Button(int x, int y, int width, int height, const char* text, void (*fnc)())
-		: rect(x, y, width, height), text(text, &rect), func(fnc), isFocus(false) {}
+	Button(int x, int y, int width, int height, const char* text, void (*fnc)(), const char** d = nullptr, int sD = 0)
+		: rect(x, y, width, height), text(text, &rect), func(fnc), isFocus(false), desc(d), sizeD(sD) {}
 
 	void draw();
 

@@ -74,7 +74,7 @@ void Window::onMouseRightClick(int x, int y)
 	App::getInstance()->delOtherBtn();
 
 	Button* ctrl[] = {
-		new Button(x, y, 120, 30, "Add node", addBtn)
+		new Button(x, y, 120, 30, "Add node", addBtn, new const char* [2] {"Click here to", "create a node"}, 2)
 	};
 
 	countBtn = (sizeof ctrl) / sizeof(Button*);

@@ -138,6 +138,14 @@ void App::outPath(int* path)
 
 void App::draw()
 {
+	double color[] = {0.986, 1, 1};
+	glBegin(GL_QUADS);
+	glColor3dv(color);
+	glVertex2d(0, 0);
+	glVertex2d(APP_MENU, 0);
+	glVertex2d(APP_MENU, APP_HEIGHT);
+	glVertex2d(0, APP_HEIGHT);
+	glEnd();
 	this->graph->draw();
 	this->stack->draw();
 	this->aboutView->draw();

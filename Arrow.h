@@ -17,7 +17,7 @@ private:
 	bool isEllip;
 
 public:
-	Arrow(Ellip* start, Ellip* finish, bool isEl = false, double weight = 1.0, double angle = M_PI / 6.0, double length = 20.0, double* color = defaultColorAlt);
+	Arrow(Ellip* start, Ellip* finish, bool isF = false, bool isEl = false, double weight = 1.0, double angle = M_PI / 6.0, double length = 20.0, double* color = defaultColorAlt);
 
 	Arrow(Ellip* start, int x, int y, double weight = 1.0, double angle = M_PI / 6.0, double length = 20.0, double* color = defaultColorAlt);
 
@@ -29,6 +29,8 @@ public:
 	double getSY() { return this->sY; }
 	double getFX() { return this->fX; }
 	double getFY() { return this->fY; }
+
+	bool getFocus() { return this->isFocus; }
 
 	void setXYforEllip(double* x, double *y, int length);
 

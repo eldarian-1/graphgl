@@ -13,10 +13,10 @@ int main(int argc, char** argv)
 	setlocale(LC_ALL, "Rus");
 
 	Button* ctrl[] = {
-		new Button(15, 15, 120, 30, "Auto cities", &btnAutoCities),
-		new Button(15, 60, 120, 30, "Set cities", &btnSetCities),
-		new Button(15, 105, 120, 30, "Set coords", &btnSetCoords),
-		new Button(15, 150, 120, 30, "Find path", &btnFindPath)
+		new Button(15, 15, 120, 30, "Auto cities", &btnAutoCities, new const char* [4] {"Click here to", "automatically", "create a default", "graph"}, 4),
+		new Button(15, 60, 120, 30, "Set cities", &btnSetCities, new const char* [3] {"Click here to", "create your own", "graph"}, 3),
+		new Button(15, 105, 120, 30, "Set coords", &btnSetCoords, new const char* [4] {"Click here to", "align all nodes", "in the", "coordinates"}, 4),
+		new Button(15, 150, 120, 30, "Find path", &btnFindPath, new const char* [4] {"Click here to", "solve the", "Traveling", "Salesman Problem"}, 4)
 	};
 
 	App::getInstance(&argc, argv, ctrl, sizeof(ctrl)/sizeof(Button*))->start();

@@ -245,8 +245,8 @@ void Node::onMouseRightClick(int x, int y)
 	App::getInstance()->delOtherBtn();
 
 	Button* ctrl[] = {
-		new Button(x, y, 120, 30, "Update node", updBtn),
-		new Button(x, y + 29, 120, 30, "Delete node", delBtn)
+		new Button(x, y, 120, 30, "Update node", updBtn, new const char* [2] {"Click here to", "change the name"}, 2),
+		new Button(x, y + 29, 120, 30, "Delete node", delBtn, new const char* [2] {"Click here to", "delete the node"}, 2)
 	};
 
 	countBtn = (sizeof ctrl) / sizeof(Button*);

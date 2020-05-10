@@ -10,13 +10,13 @@ private:
 
 	const char** row;
 	int rows;
-	bool isConst;
+	char isConst;
 
 public:
 	static AboutView* getInstance();
 
-	void set(char** r = nullptr, int rs = 0);
-	void set(const char** r = nullptr, int rs = 0);
+	void set(char** r = nullptr, int rs = 0, char isC = -1);
+	void set(const char** r = nullptr, int rs = 0, char isC = 1);
 
 	void clear();
 	void draw();

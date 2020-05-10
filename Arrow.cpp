@@ -3,8 +3,8 @@
 #include <glut.h>
 #include <math.h>
 
-Arrow::Arrow(Ellip* start, Ellip* finish, bool isEl, double weight, double angle, double length, double* color)
-	:weight(weight), angle(angle), length(length), color(color), isFocus(false), isEllip(isEl)
+Arrow::Arrow(Ellip* start, Ellip* finish, bool isF, bool isEl, double weight, double angle, double length, double* color)
+	:weight(weight), angle(angle), length(length), color(color), isFocus(isF), isEllip(isEl)
 {
 	double len = pow(pow(finish->cX - start->cX, 2.0) + pow(finish->cY - start->cY, 2.0), 0.5);
 	double cos = (finish->cX - start->cX) / len;
@@ -106,7 +106,11 @@ void Arrow::draw()
 		double Y0 = this->sY + rA * sn * t1;
 
 		glBegin(GL_LINE_STRIP);
-		glColor3dv(this->color);
+
+		if(this->isFocus)
+			glColor3dv(defaultColorArrowFocus);
+		else
+			glColor3dv(defaultColorArrowMain);
 
 		for (double angle = 0; angle <= M_PI; angle += step)
 		{
@@ -140,7 +144,12 @@ void Arrow::draw()
 	{
 		glLineWidth((float)this->weight);
 		glBegin(GL_LINES);
-		glColor3dv(this->color);
+		
+		if (this->isFocus)
+			glColor3dv(defaultColorArrowFocus);
+		else
+			glColor3dv(defaultColorArrowMain);
+
 		glVertex2d(this->sX, this->sY);
 		glVertex2d(this->fX, this->fY);
 		glEnd();
@@ -156,7 +165,12 @@ void Arrow::draw()
 	y3 = this->fY + t1 * sn * this->length;
 
 	glBegin(GL_TRIANGLE_FAN);
-	glColor3dv(this->color);
+	
+	if (this->isFocus)
+		glColor3dv(defaultColorArrowFocus);
+	else
+		glColor3dv(defaultColorArrowMain);
+
 	glVertex2d(this->fX, this->fY);
 	glVertex2d(x1, y1);
 	glVertex2d(x3, y3);
