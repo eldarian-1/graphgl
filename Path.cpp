@@ -128,6 +128,46 @@ bool Path::isFocused(int x, int y, void (View::* func)(int, int))
 void Path::onFocused()
 {
 	//printf("Path: onFocused from %s to %s\n", this->from->getText(), this->to->getText());
+
+	char** row = new char* [3];
+
+	const char* f = this->from->getText();
+	int sf = strlen(f) + 6;
+	row[0] = new char[sf];
+	row[0][0] = 'f';
+	row[0][1] = 'r';
+	row[0][2] = 'o';
+	row[0][3] = 'm';
+	row[0][4] = ' ';
+	for (int i = 0; i < sf - 6; i++)
+		row[0][5 + i] = f[i];
+	row[0][sf - 1] = '\0';
+
+	const char* t = this->to->getText();
+	int st = strlen(t) + 4;
+	row[1] = new char[st];
+	row[1][0] = 't';
+	row[1][1] = 'o';
+	row[1][2] = ' ';
+	for (int i = 0; i < st - 4; i++)
+		row[1][3 + i] = t[i];
+	row[1][st - 1] = '\0';
+
+	char buffer[10];
+	myitoa(this->length, buffer, 10);
+	int sd = strlen(buffer) + 7;
+	row[2] = new char[sd];
+	row[2][0] = 'p';
+	row[2][1] = 'a';
+	row[2][2] = 't';
+	row[2][3] = 'h';
+	row[2][4] = ':';
+	row[2][5] = ' ';
+	for (int i = 0; i < sd - 7; i++)
+		row[2][6 + i] = buffer[i];
+	row[2][sd - 1] = '\0';
+
+	AboutView::getInstance()->set(row, 3);
 }
 
 void Path::onUnfocused()
@@ -155,7 +195,7 @@ void Path::onMouseRightClick(int x, int y)
 
 		Button* ctrl[] = {
 			new Button(x, y, 120, 30, "Update path", updatePathBtn),
-			new Button(x, y + 30, 120, 30, "Delete path", delPathBtn),
+			new Button(x, y + 29, 120, 30, "Delete path", delPathBtn),
 		};
 
 		countBtn = (sizeof ctrl) / sizeof(Button*);

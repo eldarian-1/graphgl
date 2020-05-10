@@ -184,6 +184,41 @@ bool Node::isFocused(int x, int y, void (View::* func)(int, int))
 void Node::onFocused()
 {
 	//printf("Город %c: onFocused\n", char('A' + this->focused));
+
+	char** row = new char* [this->paths + 1];
+
+	const char* f = this->getText();
+	int s = strlen(f) + 2;
+	char* r = new char[s];
+	for (int i = 0; i < s - 2; i++)
+		r[i] = f[i];
+	r[s - 2] = ':';
+	r[s - 1] = '\0';
+	row[0] = r;
+
+	for (int i = 0; i < this->paths; i++)
+	{
+		char buffer[10];
+		myitoa(this->ptrs[i].length, buffer, 10);
+		const char* f = this->ptrs[i].to->getText();
+		int sc = strlen(f);
+		int sn = strlen(buffer);
+		int s = 6 + sc + sn;
+		char* r = new char[s];
+		r[0] = 't';
+		r[1] = 'o';
+		r[2] = ' ';
+		for (int j = 0; j < sc; j++)
+			r[3 + j] = f[j];
+		r[3 + sc] = ':';
+		r[4 + sc] = ' ';
+		for (int j = 0; j < sn; j++)
+			r[5 + sc + j] = buffer[j];
+		r[5 + sc + sn] = '\0';
+		row[1 + i] = r;
+	}
+
+	AboutView::getInstance()->set(row, this->paths + 1);
 }
 
 void Node::onUnfocused()
@@ -211,7 +246,7 @@ void Node::onMouseRightClick(int x, int y)
 
 	Button* ctrl[] = {
 		new Button(x, y, 120, 30, "Update node", updBtn),
-		new Button(x, y + 30, 120, 30, "Delete node", delBtn)
+		new Button(x, y + 29, 120, 30, "Delete node", delBtn)
 	};
 
 	countBtn = (sizeof ctrl) / sizeof(Button*);

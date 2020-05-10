@@ -12,16 +12,13 @@ void Text::set(const char* t, Ellip* ellipse, double* c)
 
 void Text::draw()
 {
-	glRotated(this->angle, 0, 0, 1.0);
 	glColor3dv((this->color)?this->color:defaultColorAlt);
 
 	for (int i = 0; this->text[i] != '\0'; i++)
 	{
-		glRasterPos2d(this->cX + i * 10, this->cY);
+		glRasterPos2d(this->cX + i * this->dist, this->cY);
 		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, this->text[i]);
 	}
-
-	glRotated(-this->angle, 0, 0, 1.0);
 }
 
 bool Text::isFocused(int x, int y)

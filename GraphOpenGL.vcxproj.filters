@@ -54,9 +54,6 @@
     <ClCompile Include="Button.cpp">
       <Filter>Исходные файлы\View</Filter>
     </ClCompile>
-    <ClCompile Include="Line.cpp">
-      <Filter>Исходные файлы\Figure</Filter>
-    </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>Исходные файлы\Figure</Filter>
     </ClCompile>
@@ -102,9 +99,6 @@
       <Filter>Файлы заголовков\View</Filter>
     </ClInclude>
     <ClInclude Include="Figure.h">
-      <Filter>Файлы заголовков\Figure</Filter>
-    </ClInclude>
-    <ClInclude Include="Line.h">
       <Filter>Файлы заголовков\Figure</Filter>
     </ClInclude>
     <ClInclude Include="Text.h">

@@ -14,13 +14,13 @@ extern double* defaultColorAlt;
 class Text : public Figure
 {
 private:
-	double cX, cY, angle;
+	double cX, cY, dist;
 	const char* text;
 	double* color;
 
 public:
-	Text(const char* t = nullptr, double* c = defaultColorAlt, double x = 0, double y = 0, double ang = 0)
-		: text(t), color(c), cX(x), cY(y), angle(ang) {};
+	Text(const char* t = nullptr, double* c = defaultColorAlt, double x = 0, double y = 0, double d = 10)
+		: text(t), color(c), cX(x), cY(y), dist(d) {};
 
 	Text(const char* t, Rect* rect, double* c = nullptr)
 		: Text(t, c,
