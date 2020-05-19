@@ -105,6 +105,11 @@ void Arrow::draw()
 		double X0 = this->sX + rA * cs * t0;
 		double Y0 = this->sY + rA * sn * t1;
 
+		if (this->isFocus)
+			glLineWidth(3);
+		else
+			glLineWidth(1);
+
 		glBegin(GL_LINE_STRIP);
 
 		if(this->isFocus)
@@ -190,10 +195,7 @@ bool Arrow::isFocused(int x, int y)
 	cs = fabs(cs);
 	sn = fabs(sn);
 
-	double x0, x1, x2, y0, y1, y2;
-
-	x0 = this->fX + t0 * cs * this->length;
-	y0 = this->fY + t1 * sn * this->length;
+	double x1, x2, x3, y1, y2, y3;
 
 	x1 = this->fX + t0 * this->length * (cs * 0.666 + cos(acos(cs) - this->angle / 2.0 + M_PI));
 	y1 = this->fY + t1 * this->length * (sn * 0.666 + sin(acos(cs) - this->angle / 2.0 + M_PI));
@@ -201,10 +203,22 @@ bool Arrow::isFocused(int x, int y)
 	x2 = this->fX + t0 * this->length * (cs * 0.666 + cos(acos(cs) + this->angle / 2.0 + M_PI));
 	y2 = this->fY + t1 * this->length * (sn * 0.666 + sin(acos(cs) + this->angle / 2.0 + M_PI));
 
-	double sq0 = squareTriangle(x0, y0, x1, y1, x2, y2);
-	double sq1 = squareTriangle(x0, y0, x2, y2, x, y);
-	double sq2 = squareTriangle(x1, y1, x2, y2, x, y);
-	double sq3 = squareTriangle(x0, y0, x1, y1, x, y);
+	x3 = this->fX + t0 * cs * this->length;
+	y3 = this->fY + t1 * sn * this->length;
 
-	return ((sq1 + sq2 + sq3) <= sq0);
+	double sq0 = squareTriangle(x1, y1, x2, y2, x3, y3);
+	double sq1 = squareTriangle(x1, y1, x3, y3, x, y);
+	double sq2 = squareTriangle(x2, y2, x3, y3, x, y);
+	double sq3 = squareTriangle(x1, y1, x2, y2, x, y);
+
+	if (isnan(sq1))
+		sq1 = 0;
+	if (isnan(sq2))
+		sq2 = 0;
+	if (isnan(sq3))
+		sq3 = 0;
+
+	double sum = sq1 + sq2 + sq3;
+
+	return (round(sum * 100) / 100 <= round(sq0 * 100) / 100);
 }

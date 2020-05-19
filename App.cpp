@@ -42,7 +42,7 @@ App::App(int* argc, char** argv, Button** ctrl, int size)
 
 	glutInitWindowSize(APP_WIDTH, APP_HEIGHT);
 	glutInitWindowPosition((app_width - APP_WIDTH) / 2, int(app_height - APP_HEIGHT * 1.3) / 2);
-	glutCreateWindow("Graph with OpenGL");
+	glutCreateWindow("Traveling Salesman Problem");
 }
 
 void App::start()
@@ -138,6 +138,8 @@ void App::outPath(int* path)
 
 void App::draw()
 {
+	glLineWidth(1);
+
 	double color[] = {0.986, 1, 1};
 	glBegin(GL_QUADS);
 	glColor3dv(color);
@@ -146,6 +148,16 @@ void App::draw()
 	glVertex2d(APP_MENU, APP_HEIGHT);
 	glVertex2d(0, APP_HEIGHT);
 	glEnd();
+
+	double c[] = { 0.75, 0.75, 0.75 };
+	glBegin(GL_LINES);
+	glColor3dv(c);
+	glVertex2d(APP_MENU, 0);
+	glVertex2d(APP_MENU, APP_HEIGHT);
+	glVertex2d(0, 0);
+	glVertex2d(APP_WIDTH, 0);
+	glEnd();
+
 	this->graph->draw();
 	this->stack->draw();
 	this->aboutView->draw();
@@ -156,16 +168,6 @@ void displayFunc()
 	glClearColor(1, 1, 1, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
 	App::getInstance()->draw();
-
-	glBegin(GL_LINES);
-	double c[] = { 0.75, 0.75, 0.75 };
-	glColor3dv(c);
-	glVertex2d(150.0, 0);
-	glVertex2d(150.0, APP_HEIGHT);
-	glVertex2d(0, 0);
-	glVertex2d(APP_WIDTH, 0);
-	glEnd();
-
 	glutSwapBuffers();
 	glFlush();
 }

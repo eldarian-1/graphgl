@@ -3,7 +3,7 @@
 #include "View.h"
 #include "Node.h"
 
-class Graph: public View
+class Graph
 {
 private:
 	static Graph* instance;
@@ -34,12 +34,4 @@ public:
 	void outPath(int* path);
 
 	bool isFocused(int, int, void (View::*)(int, int) = nullptr);
-	void onFocused();
-	void onUnfocused();
-	void onMouseLeftClick(int, int);
-	void onMouseRightClick(int, int);
-	void onMouseLeftDown(int, int);
-	void onMouseLeftUp(int, int);
-	void onMouseRightDown(int, int);
-	void onMouseRightUp(int, int);
 };

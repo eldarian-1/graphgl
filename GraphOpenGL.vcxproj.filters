@@ -31,17 +31,14 @@
     <Filter Include="Исходные файлы\DS">
       <UniqueIdentifier>{0632962e-73e3-4810-81a3-4ec24d80d286}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\App">
+      <UniqueIdentifier>{48c12f8e-60c9-45a0-ad36-d60c1262905f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\App">
+      <UniqueIdentifier>{985b5503-835e-4953-8df1-8977d7a259c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="App.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="AppFunc.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Graph.cpp">
       <Filter>Исходные файлы\DS</Filter>
     </ClCompile>
@@ -72,17 +69,20 @@
     <ClCompile Include="Path.cpp">
       <Filter>Исходные файлы\View</Filter>
     </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Исходные файлы\App</Filter>
+    </ClCompile>
+    <ClCompile Include="AppFunc.cpp">
+      <Filter>Исходные файлы\App</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>Исходные файлы\App</Filter>
+    </ClCompile>
     <ClCompile Include="AboutView.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\App</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="App.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="AppFunc.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="Graph.h">
       <Filter>Файлы заголовков\DS</Filter>
     </ClInclude>
@@ -120,7 +120,13 @@
       <Filter>Файлы заголовков\View</Filter>
     </ClInclude>
     <ClInclude Include="AboutView.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\App</Filter>
+    </ClInclude>
+    <ClInclude Include="AppFunc.h">
+      <Filter>Файлы заголовков\App</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>Файлы заголовков\App</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

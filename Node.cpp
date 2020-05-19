@@ -185,7 +185,9 @@ void Node::onFocused()
 {
 	//printf("Город %c: onFocused\n", char('A' + this->focused));
 
-	char** row = new char* [this->paths + 1];
+	char** row = new char* [
+		(this->paths)?(this->paths + 1):(2)
+	];
 
 	const char* f = this->getText();
 	int s = strlen(f) + 2;
@@ -196,29 +198,41 @@ void Node::onFocused()
 	r[s - 1] = '\0';
 	row[0] = r;
 
-	for (int i = 0; i < this->paths; i++)
+	if (this->paths)
+		for (int i = 0; i < this->paths; i++)
+		{
+			char buffer[10];
+			myitoa(this->ptrs[i].length, buffer, 10);
+			const char* f = this->ptrs[i].to->getText();
+			int sc = strlen(f);
+			int sn = strlen(buffer);
+			int s = 6 + sc + sn;
+			char* r = new char[s];
+			r[0] = 't';
+			r[1] = 'o';
+			r[2] = ' ';
+			for (int j = 0; j < sc; j++)
+				r[3 + j] = f[j];
+			r[3 + sc] = ':';
+			r[4 + sc] = ' ';
+			for (int j = 0; j < sn; j++)
+				r[5 + sc + j] = buffer[j];
+			r[5 + sc + sn] = '\0';
+			row[1 + i] = r;
+		}
+	else
 	{
-		char buffer[10];
-		myitoa(this->ptrs[i].length, buffer, 10);
-		const char* f = this->ptrs[i].to->getText();
-		int sc = strlen(f);
-		int sn = strlen(buffer);
-		int s = 6 + sc + sn;
-		char* r = new char[s];
-		r[0] = 't';
-		r[1] = 'o';
-		r[2] = ' ';
-		for (int j = 0; j < sc; j++)
-			r[3 + j] = f[j];
-		r[3 + sc] = ':';
-		r[4 + sc] = ' ';
-		for (int j = 0; j < sn; j++)
-			r[5 + sc + j] = buffer[j];
-		r[5 + sc + sn] = '\0';
-		row[1 + i] = r;
+		char t[] = "hasn't paths";
+		int st = strlen(t);
+		row[1] = new char[st + 1];
+		for (int i = 0; i < st; i++)
+			row[1][i] = t[i];
+		row[1][st] = '\0';
 	}
 
-	AboutView::getInstance()->set(row, this->paths + 1);
+	AboutView::getInstance()->set(row,
+		(this->paths) ? (this->paths + 1) : (2)
+	);
 }
 
 void Node::onUnfocused()
@@ -295,6 +309,9 @@ void Node::onMouseRightUp(int x, int y)
 			int s;
 			cout << "Растояние от " << fromNode->getText() << " до " << this->getText() << " (0 - дороги не существует): ";
 			cin >> s;
+
+			if (s <= 0)
+				return;
 
 			Path* ptrs = fromNode->ptrs;
 

@@ -35,7 +35,7 @@ void Window::onFocused()
 	int i;
 	char buffer[10];
 
-	myitoa(actX, buffer, 10);
+	myitoa(actX - APP_MENU, buffer, 10);
 	row[0] = new char[8]{ 'x', ':', ' ' };
 	for (i = 0; i < strlen(buffer); i++)
 		row[0][3 + i] = buffer[i];
@@ -105,8 +105,7 @@ void Window::onMouseRightUp(int x, int y)
 
 void addBtn()
 {
-	App::getInstance()->popStack(Window::countBtn);
-	Window::countBtn = 0;
+	App::getInstance()->delOtherBtn();
 
 	char buffer[100];
 
