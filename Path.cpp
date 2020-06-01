@@ -92,6 +92,32 @@ void Path::draw()
 	this->setEllip(&x, &y);
 	this->setEllipText(x, y);
 
+	Graph* graph = Graph::getInstance();
+	Node** nodes = graph->getNodes();
+	int* path = App::getInstance()->getPath();
+
+	bool flag0 = App::getInstance()->isFind();
+	bool flag1 = false;
+
+	int count = graph->getCount();
+
+	if(flag0)
+		if(path)
+			for (int i = 0, j = 0; i < count && !flag1; i++)
+			{
+				flag1 = (this->from == nodes[j]) && (this->to == nodes[path[j]]);
+				j = path[j];
+			}
+		else
+			for (int i = 0; i < count && !flag1; i++)
+			{
+				int temp = ((i + 1) < count) ? (i + 1) : (0);
+				flag1 = (this->from == nodes[i]) && (this->to == nodes[temp]);
+			}
+
+	if(flag0 && flag1)
+		this->arrow->setArrow(5.0, defaultColorArrowFinded);
+
 	this->arrow->draw();
 	this->ellip->draw();
 	this->text->draw();
@@ -222,6 +248,8 @@ void Path::onMouseLeftUp(int x, int y)
 void Path::onMouseRightDown(int x, int y)
 {
 	//printf("Button: onMouseRightDown on x: %d, y: %d\n", x, y);
+
+	App::getInstance()->delOtherBtn();
 
 	if (!isFocusEllip && isFocus)
 	{

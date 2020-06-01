@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Graph.h"
 
 #include <iostream>
@@ -6,6 +8,7 @@ using namespace std;
 
 #include "AppFunc.h"
 #include "Arrow.h"
+#include "App.h"
 
 extern const int APP_WIDTH;
 extern const int APP_HEIGHT;
@@ -13,6 +16,8 @@ extern const int APP_SHIFT;
 extern const double M_PI;
 
 Graph* Graph::instance = nullptr;
+
+void btnRebuild();
 
 Graph* Graph::getInstance(Node** c, int i)
 {
@@ -90,6 +95,9 @@ void Graph::draw()
 {
 	this->setPaths();
 
+	if (App::getInstance()->isFind())
+		Text("Start", defaultColorArrowFocus, this->nodes[0]->figure->getCX() - 25, this->nodes[0]->figure->getCY() - 25).draw();
+
 	for (int i = 0; i < this->count; i++)
 		this->nodes[i]->draw();
 
@@ -146,6 +154,11 @@ void Graph::delNode(Node* node)
 	delete[] temp;
 }
 
+Node** Graph::getNodes()
+{
+	return this->nodes;
+}
+
 void Graph::getMatrix(int***& mat, int& n, int**& cost, int*& path)
 {
 	n = this->count;
@@ -200,6 +213,11 @@ void Graph::outPath(int* path)
 	}
 	cout << this->nodes[0]->getText() << endl;
 	cout << "Path: " << sum << endl;
+
+	App::getInstance()->toFinded();
+	App::getInstance()->setPath(path);
+
+	Stack::getInstance()->add(new Button(APP_MENU + 14, 15, 150, 30, "Rebuild graph", btnRebuild, new const char* [3]{ "Click here to", "rebuild", "the graph" }, 3));
 }
 
 bool Graph::isFocused(int x, int y, void (View::* func)(int, int))
@@ -208,4 +226,27 @@ bool Graph::isFocused(int x, int y, void (View::* func)(int, int))
 	for (int i = 0; i < this->count && !temp; i++)
 		temp = this->nodes[i]->isFocused(x, y, func);
 	return temp;
+}
+
+void btnRebuild()
+{
+	App* app = App::getInstance();
+	Stack* stack = Stack::getInstance();
+	Graph* graph = Graph::getInstance();
+	Node** temp = new Node * [graph->count];
+	int* path = app->getPath();
+
+	for (int i = 0, j = 0; i < graph->count; i++)
+	{
+		temp[i] = graph->nodes[i];
+		graph->nodes[i] = (i < j) ? (graph->nodes[j]) : (temp[j]);
+		j = path[j];
+	}
+
+	delete[] temp;
+
+	app->setPath(nullptr);
+	app->toFinded();
+	stack->pop();
+	graph->setCoords();
 }

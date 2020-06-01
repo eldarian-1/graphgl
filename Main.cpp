@@ -68,7 +68,10 @@ void btnAutoCities()
 	ptrs[3][1] = cities[1];
 	ptrs[3][2] = cities[2];
 
-	App::getInstance()->setCities(cities, count);
+
+	App* app = App::getInstance();
+	app->setCities(cities, count);
+	app->delOtherBtn();
 }
 
 void btnSetCities()
@@ -130,12 +133,16 @@ void btnSetCities()
 	for (int i = 0; i < count; i++)
 		cities[i]->setNode(names[i], counts[i], paths[i], ptrs[i]);
 
-	App::getInstance()->setCities(cities, count);
+	App* app = App::getInstance();
+	app->setCities(cities, count);
+	app->setPath(nullptr);
+	app->delOtherBtn();
 }
 
 void btnSetCoords()
 {
-	App::getInstance()->setCoords();
+	App* app = App::getInstance();
+	app->setCoords();
 }
 
 void btnFindPath()
@@ -145,9 +152,11 @@ void btnFindPath()
 	int** cost;
 	int* path;
 
-	App::getInstance()->getMatrix(mat, n, cost, path);
+	App* app = App::getInstance();
+	app->getMatrix(mat, n, cost, path);
 
 	solve(mat, n, cost, path);
 
-	App::getInstance()->outPath(path);
+	app->setPath(nullptr);
+	app->outPath(path);
 }

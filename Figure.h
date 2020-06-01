@@ -18,3 +18,5 @@ static double* defaultColorAlt = new double[3]{ 0.0, 0.1, 0.15 };
 static double* defaultColorArrowMain = new double[3]{ 0.0, 0.35, 0.4 };
 
 static double* defaultColorArrowFocus = new double[3]{ 0.5, 0.0, 0.35 };
+
+static double* defaultColorArrowFinded = new double[3]{ 0.3, 0.7, 0.55 };

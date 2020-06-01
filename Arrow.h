@@ -25,6 +25,8 @@ public:
 
 	void setFocus(bool isF) { this->isFocus = isF; }
 
+	void setArrow(double weight = 1.0, double* color = defaultColorAlt);
+
 	double getSX() { return this->sX; }
 	double getSY() { return this->sY; }
 	double getFX() { return this->fX; }

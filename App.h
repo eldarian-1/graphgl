@@ -15,6 +15,8 @@ private:
 	Graph* graph;
 	AboutView* aboutView;
 	bool isStarted;
+	bool isFinded;
+	int* path;
 
 	App(int*, char**, Button**, int);
 
@@ -30,12 +32,16 @@ public:
 	int getCountGraph();
 	const char* getNameNode(int);
 	Node* getPtrNode(int);
+	int* getPath();
+	void setPath(int*);
 
 	void addStack(Button** ctrl, int size);
 	void addGraph(Node*);
 	void popStack(int);
 	void setCities(Node**, int);
 	void setCoords();
+	void toFinded();
+	bool isFind();
 
 	void delOtherBtn();
 

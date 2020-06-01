@@ -27,6 +27,12 @@ Arrow::Arrow(Ellip* start, int x, int y, double weight, double angle, double len
 	this->fY = y - sin * this->length;
 }
 
+void Arrow::setArrow(double weight, double* color)
+{
+	this->weight = weight;
+	this->color = color;
+}
+
 void Arrow::setXYforEllip(double* x, double* y, int length)
 {
 	double len = pow(pow(fX - sX, 2.0) + pow(fY - sY, 2.0), 0.5);
@@ -108,14 +114,14 @@ void Arrow::draw()
 		if (this->isFocus)
 			glLineWidth(3);
 		else
-			glLineWidth(1);
+			glLineWidth(this->weight);
 
 		glBegin(GL_LINE_STRIP);
 
 		if(this->isFocus)
 			glColor3dv(defaultColorArrowFocus);
 		else
-			glColor3dv(defaultColorArrowMain);
+			glColor3dv(this->color);
 
 		for (double angle = 0; angle <= M_PI; angle += step)
 		{

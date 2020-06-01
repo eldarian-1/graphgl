@@ -27,6 +27,8 @@ App* App::getInstance(int* argc, char** argv, Button** ctrl, int size)
 App::App(int* argc, char** argv, Button** ctrl, int size)
 {
 	this->isStarted = false;
+	this->isFinded = false;
+	int* path = nullptr;
 	this->graph = Graph::getInstance();
 	this->stack = Stack::getInstance();
 	this->aboutView = AboutView::getInstance();
@@ -74,6 +76,22 @@ Node* App::getPtrNode(int num)
 	return this->graph->getPtrNode(num);
 }
 
+int* App::getPath()
+{
+	return this->path;
+}
+
+void App::setPath(int* path)
+{
+	if (this->path)
+		delete[] this->path;
+
+	if (!path)
+		this->isFinded = false;
+
+	this->path = path;
+}
+
 void App::addStack(Button** ctrl, int size)
 {
 	for (int i = 0; i < size; i++)
@@ -105,8 +123,21 @@ void App::setCoords()
 	glutPostRedisplay();
 }
 
+void App::toFinded()
+{
+	this->isFinded = true;
+}
+
+bool App::isFind()
+{
+	return this->isFinded;
+}
+
 void App::delOtherBtn()
 {
+	if (this->isFinded && !this->path)
+		this->setPath(nullptr);
+
 	if (Window::countBtn)
 	{
 		this->popStack(Window::countBtn);

@@ -30,8 +30,12 @@ public:
 	void moveNode(int, int);
 	void delNode(Node*);
 
+	Node** getNodes();
+
 	void getMatrix(int***& mat, int& n, int**& cost, int*& path);
 	void outPath(int* path);
 
 	bool isFocused(int, int, void (View::*)(int, int) = nullptr);
+
+	friend void btnRebuild();
 };
