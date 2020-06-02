@@ -105,7 +105,8 @@ void Window::onMouseRightUp(int x, int y)
 
 void addBtn()
 {
-	App::getInstance()->delOtherBtn();
+	App* app = App::getInstance();
+	app->delOtherBtn();
 
 	char buffer[100];
 
@@ -144,5 +145,5 @@ void addBtn()
 
 	Node* node = new Node(Window::actX, Window::actY, name, paths, path, ptr);
 
-	App::getInstance()->addGraph(node);
+	app->addGraph(node);
 }

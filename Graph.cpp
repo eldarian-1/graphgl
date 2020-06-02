@@ -245,8 +245,7 @@ void btnRebuild()
 
 	delete[] temp;
 
-	app->setPath(nullptr);
+	app->delOtherBtn();
 	app->toFinded();
-	stack->pop();
 	graph->setCoords();
 }

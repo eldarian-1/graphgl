@@ -349,11 +349,19 @@ void updBtn()
 
 	Node::actNode->updNode(text);
 	Node::actNode = nullptr;
+
+	App* app = App::getInstance();
+	app->setPath(nullptr);
+	app->toFinded();
 }
 
 void delBtn()
 {
-	App::getInstance()->popStack(Node::countBtn);
+	App* app = App::getInstance();
+	app->setPath(nullptr);
+	app->delOtherBtn();
+
+	app->popStack(Node::countBtn);
 	Node::countBtn = 0;
 
 	Graph::getInstance()->delNode(Node::actNode);

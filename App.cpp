@@ -86,6 +86,9 @@ void App::setPath(int* path)
 	if (this->path)
 		delete[] this->path;
 
+	if (this->path && this->isFinded)
+		this->stack->pop();
+
 	if (!path)
 		this->isFinded = false;
 
@@ -135,7 +138,7 @@ bool App::isFind()
 
 void App::delOtherBtn()
 {
-	if (this->isFinded && !this->path)
+	if (this->isFinded)
 		this->setPath(nullptr);
 
 	if (Window::countBtn)

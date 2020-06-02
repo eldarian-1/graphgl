@@ -135,7 +135,6 @@ void btnSetCities()
 
 	App* app = App::getInstance();
 	app->setCities(cities, count);
-	app->setPath(nullptr);
 	app->delOtherBtn();
 }
 
@@ -157,6 +156,5 @@ void btnFindPath()
 
 	solve(mat, n, cost, path);
 
-	app->setPath(nullptr);
 	app->outPath(path);
 }

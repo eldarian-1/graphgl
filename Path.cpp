@@ -265,7 +265,10 @@ void Path::onMouseRightUp(int x, int y)
 
 void updatePathBtn()
 {
-	App::getInstance()->popStack(Path::countBtn);
+	App* app = App::getInstance();
+	app->delOtherBtn();
+
+	app->popStack(Path::countBtn);
 	Path::countBtn = 0;
 
 	int s;
@@ -279,12 +282,14 @@ void updatePathBtn()
 
 	Path::actNode = nullptr;
 	Path::actPath = nullptr;
+
+	app->toFinded();
 }
 
 void delPathBtn()
 {
-	App::getInstance()->popStack(Path::countBtn);
-	Path::countBtn = 0;
+	App* app = App::getInstance();
+	app->delOtherBtn();
 
 	Path::actNode->delPath(Path::actPath);
 	Path::actNode = nullptr;
